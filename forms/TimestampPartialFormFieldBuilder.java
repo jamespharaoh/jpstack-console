@@ -3,14 +3,9 @@ package wbs.console.forms;
 import static wbs.framework.utils.etc.Misc.camelToSpaces;
 import static wbs.framework.utils.etc.Misc.capitalise;
 import static wbs.framework.utils.etc.Misc.ifNull;
-import static wbs.framework.utils.etc.Misc.stringFormat;
-
-import java.util.Date;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
-
-import org.joda.time.Instant;
 
 import wbs.console.annotations.ConsoleModuleBuilderHandler;
 import wbs.framework.application.annotations.PrototypeComponent;
@@ -19,13 +14,12 @@ import wbs.framework.builder.annotations.BuildMethod;
 import wbs.framework.builder.annotations.BuilderParent;
 import wbs.framework.builder.annotations.BuilderSource;
 import wbs.framework.builder.annotations.BuilderTarget;
-import wbs.framework.utils.etc.BeanLogic;
 
 @SuppressWarnings ({ "rawtypes", "unchecked" })
-@PrototypeComponent ("timestampFromFormFieldBuilder")
+@PrototypeComponent ("timestampPartialFormFieldBuilder")
 @ConsoleModuleBuilderHandler
 public
-class TimestampFromFormFieldBuilder {
+class TimestampPartialFormFieldBuilder {
 
 	// dependencies
 
@@ -33,10 +27,6 @@ class TimestampFromFormFieldBuilder {
 	FormFieldPluginManagerImplementation formFieldPluginManager;
 
 	// prototype dependencies
-
-	@Inject
-	Provider<DateFormFieldNativeMapping>
-	dateFormFieldNativeMappingProvider;
 
 	@Inject
 	Provider<IdentityFormFieldNativeMapping>
@@ -47,8 +37,8 @@ class TimestampFromFormFieldBuilder {
 	nullFormFieldValueConstraintValidatorProvider;
 
 	@Inject
-	Provider<NullFormFieldValueValidator>
-	nullFormFieldValueValidatorProvider;
+	Provider<TimestampPartialFormFieldValueValidator>
+	timestampPartialFormFieldValueValidatorProvider;
 
 	@Inject
 	Provider<ReadOnlyFormField>
@@ -63,8 +53,8 @@ class TimestampFromFormFieldBuilder {
 	textFormFieldRendererProvider;
 
 	@Inject
-	Provider<TimestampFromFormFieldInterfaceMapping>
-	timestampFromFormFieldInterfaceMappingProvider;
+	Provider<IdentityFormFieldInterfaceMapping>
+	identityFormFieldInterfaceMappingProvider;
 
 	@Inject
 	Provider<UpdatableFormField>
@@ -76,7 +66,7 @@ class TimestampFromFormFieldBuilder {
 	FormFieldBuilderContext context;
 
 	@BuilderSource
-	TimestampFromFormFieldSpec spec;
+	TimestampPartialFormFieldSpec spec;
 
 	@BuilderTarget
 	FormFieldSet formFieldSet;
@@ -94,7 +84,9 @@ class TimestampFromFormFieldBuilder {
 		String label =
 			ifNull (
 				spec.label (),
-				capitalise (camelToSpaces (name)));
+				capitalise (
+					camelToSpaces (
+						name)));
 
 		Boolean readOnly =
 			ifNull (
@@ -113,57 +105,22 @@ class TimestampFromFormFieldBuilder {
 
 		// accessor and native mapping
 
-		Class<?> propertyClass =
-			BeanLogic.propertyClass (
-				context.containerClass (),
-				name);
+		FormFieldAccessor formFieldAccessor =
+			simpleFormFieldAccessorProvider.get ()
 
-		FormFieldAccessor formFieldAccessor;
-		FormFieldNativeMapping formFieldNativeMapping;
+			.name (
+				name)
 
-		if (propertyClass == Instant.class) {
+			.nativeClass (
+				String.class);
 
-			formFieldAccessor =
-				simpleFormFieldAccessorProvider.get ()
-
-				.name (
-					name)
-
-				.nativeClass (
-					Instant.class);
-
-			formFieldNativeMapping =
-				identityFormFieldNativeMappingProvider.get ();
-
-		} else if (propertyClass == Date.class) {
-
-			formFieldAccessor =
-				simpleFormFieldAccessorProvider.get ()
-
-				.name (
-					name)
-
-				.nativeClass (
-					Date.class);
-
-			formFieldNativeMapping =
-				dateFormFieldNativeMappingProvider.get ();
-
-		} else {
-
-			throw new RuntimeException (
-				stringFormat (
-					"Don't know how to map %s as timestamp for %s.%s",
-					propertyClass,
-					context.containerClass (),
-					name));
-
-		}
+		FormFieldNativeMapping formFieldNativeMapping =
+			identityFormFieldNativeMappingProvider.get ();
 
 		// value validator
 
 		FormFieldValueValidator valueValidator =
-			nullFormFieldValueValidatorProvider.get ();
+			timestampPartialFormFieldValueValidatorProvider.get ();
 
 		// constraint validator
 
@@ -173,8 +130,7 @@ class TimestampFromFormFieldBuilder {
 		// interface mapping
 
 		FormFieldInterfaceMapping interfaceMapping =
-			timestampFromFormFieldInterfaceMappingProvider.get ()
-				.name (name);
+			identityFormFieldInterfaceMappingProvider.get ();
 
 		// renderer
 
