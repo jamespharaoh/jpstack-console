@@ -17,7 +17,7 @@ import wbs.framework.data.annotations.DataClass;
 @DataClass ("console-meta-module")
 @PrototypeComponent ("consoleMetaModule")
 public
-class ConsoleMetaModuleImpl
+class ConsoleMetaModuleImplementation
 	implements ConsoleMetaModule {
 
 	// properties
@@ -35,7 +35,7 @@ class ConsoleMetaModuleImpl
 	// property utils
 
 	public
-	ConsoleMetaModuleImpl addExtensionPoint (
+	ConsoleMetaModuleImplementation addExtensionPoint (
 			ConsoleContextExtensionPoint extensionPoint) {
 
 		extensionPoints.add (
@@ -46,7 +46,7 @@ class ConsoleMetaModuleImpl
 	}
 
 	public
-	ConsoleMetaModuleImpl addContextLink (
+	ConsoleMetaModuleImplementation addContextLink (
 			ConsoleContextLink contextLink) {
 
 		contextLinks.add (

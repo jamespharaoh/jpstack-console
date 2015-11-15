@@ -34,7 +34,7 @@ import wbs.framework.web.WebFile;
 @DataClass ("console-module")
 @PrototypeComponent ("consoleModuleImpl")
 public
-class ConsoleModuleImpl
+class ConsoleModuleImplementation
 	implements ConsoleModule {
 
 	// dependencies

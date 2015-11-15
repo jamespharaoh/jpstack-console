@@ -33,7 +33,7 @@ import wbs.framework.data.tools.DataToXml;
 @Log4j
 @SingletonComponent ("consoleMetaManagerImpl")
 public
-class ConsoleMetaManagerImpl
+class ConsoleMetaManagerImplementation
 	implements ConsoleMetaManager {
 
 	// prototype dependencies

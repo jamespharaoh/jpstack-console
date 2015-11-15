@@ -8,7 +8,7 @@ import wbs.console.helper.ConsoleHelper;
 
 @Accessors (fluent = true)
 public
-class FormFieldBuilderContextImpl
+class FormFieldBuilderContextImplementation
 	implements FormFieldBuilderContext {
 
 	@Getter @Setter

@@ -8,7 +8,7 @@ import wbs.console.helper.ConsoleHelper;
 @Accessors (fluent = true)
 @Data
 public
-class ConsoleContextBuilderContainerImpl
+class ConsoleContextBuilderContainerImplementation
 	implements ConsoleContextBuilderContainer {
 
 	String existingBeanNamePrefix;

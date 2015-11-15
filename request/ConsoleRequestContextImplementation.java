@@ -63,7 +63,7 @@ import wbs.framework.web.RequestContext;
 	value = "consoleRequestContext",
 	proxyInterface = ConsoleRequestContext.class)
 public
-class ConsoleRequestContextImpl
+class ConsoleRequestContextImplementation
 	implements ConsoleRequestContext {
 
 	// dependencies
