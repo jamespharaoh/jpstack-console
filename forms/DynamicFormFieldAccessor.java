@@ -11,14 +11,18 @@ import lombok.experimental.Accessors;
 
 import com.google.common.base.Optional;
 
+import wbs.console.helper.ConsoleHelper;
 import wbs.console.helper.ConsoleObjectManager;
 import wbs.framework.application.annotations.PrototypeComponent;
-import wbs.framework.utils.etc.BeanLogic;
+import wbs.framework.record.Record;
 
 @Accessors (fluent = true)
-@PrototypeComponent ("simpleFormFieldAccessor")
+@PrototypeComponent ("dynamicFormFieldAccessor")
 public
-class SimpleFormFieldAccessor<Container,Native>
+class DynamicFormFieldAccessor<
+	Container extends Record<Container>,
+	Native
+>
 	implements FormFieldAccessor<Container,Native> {
 
 	// properties
@@ -37,14 +41,17 @@ class SimpleFormFieldAccessor<Container,Native>
 	@Override
 	public
 	Optional<Native> read (
-		Container container) {
+			@NonNull Container container) {
 
 		// get native object
 
-		Object nativeObject;
+		ConsoleHelper<?> consoleHelper =
+			consoleObjectManager.getConsoleObjectHelper (
+				(Container)
+				container);
 
-		nativeObject =
-			BeanLogic.getProperty (
+		Object nativeObject =
+			consoleHelper.getDynamic (
 				container,
 				name);
 
@@ -106,7 +113,11 @@ class SimpleFormFieldAccessor<Container,Native>
 
 		// set property
 
-		BeanLogic.setProperty (
+		ConsoleHelper<?> consoleHelper =
+			consoleObjectManager.getConsoleObjectHelper(
+				container);
+
+		consoleHelper.setDynamic (
 			container,
 			name,
 			nativeValue.orNull ());
