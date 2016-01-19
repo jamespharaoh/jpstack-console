@@ -29,9 +29,6 @@ class TextFormFieldSpec {
 	String label;
 
 	@DataAttribute
-	Integer size;
-
-	@DataAttribute
 	Boolean readOnly;
 
 	@DataAttribute

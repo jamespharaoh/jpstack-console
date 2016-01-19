@@ -4,6 +4,9 @@ import static wbs.framework.utils.etc.Misc.camelToSpaces;
 import static wbs.framework.utils.etc.Misc.capitalise;
 import static wbs.framework.utils.etc.Misc.ifNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 
@@ -39,9 +42,6 @@ class TextFormFieldBuilder {
 	@Inject
 	Provider<NullFormFieldConstraintValidator>
 	nullFormFieldValueConstraintValidatorProvider;
-
-	@Inject
-	Provider<NullFormFieldValueValidator> nullFormFieldValueValidatorProvider;
 
 	@Inject
 	Provider<ReadOnlyFormField> readOnlyFormFieldProvider;
@@ -90,11 +90,6 @@ class TextFormFieldBuilder {
 			ifNull (
 				textFormFieldSpec.nullable (),
 				false);
-
-		Integer size =
-			ifNull (
-				textFormFieldSpec.size (),
-				FormField.defaultSize);
 
 		Boolean dynamic =
 			ifNull (
@@ -150,8 +145,8 @@ class TextFormFieldBuilder {
 
 		// native mapping
 
-		FormFieldNativeMapping<?,?> nativeMapping =
-			formFieldPluginManager.getNativeMapping (
+		FormFieldNativeMapping nativeMapping =
+			formFieldPluginManager.getNativeMappingRequired (
 				context,
 				context.containerClass (),
 				name,
@@ -160,8 +155,8 @@ class TextFormFieldBuilder {
 
 		// value validator
 
-		FormFieldValueValidator valueValidator =
-			nullFormFieldValueValidatorProvider.get ();
+		List<FormFieldValueValidator> valueValidators =
+			new ArrayList<> ();
 
 		// constraint validator
 
@@ -185,10 +180,7 @@ class TextFormFieldBuilder {
 				label)
 
 			.nullable (
-				nullable)
-
-			.size (
-				size);
+				nullable);
 
 		// update hook
 
@@ -245,8 +237,8 @@ class TextFormFieldBuilder {
 				.nativeMapping (
 					nativeMapping)
 
-				.valueValidator (
-					valueValidator)
+				.valueValidators (
+					valueValidators)
 
 				.constraintValidator (
 					constraintValidator)
