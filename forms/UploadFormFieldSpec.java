@@ -22,4 +22,7 @@ class UploadFormFieldSpec {
 	@DataAttribute
 	String name;
 
+	@DataAttribute
+	Boolean nullable;
+
 }
