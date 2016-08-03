@@ -1,24 +1,26 @@
 package wbs.console.forms;
 
-import static wbs.framework.utils.etc.Misc.bytesToString;
-import static wbs.framework.utils.etc.Misc.stringToBytes;
 import lombok.NonNull;
+import lombok.experimental.Accessors;
+
+import org.json.simple.JSONValue;
 
 import com.google.common.base.Optional;
 
 import wbs.framework.application.annotations.PrototypeComponent;
 import static wbs.framework.utils.etc.OptionalUtils.isNotPresent;
 
-@PrototypeComponent ("utf8StringFormFieldNativeMapping")
+@Accessors (fluent = true)
+@PrototypeComponent ("jsonFormFieldNativeMapping")
 public
-class Utf8StringFormFieldNativeMapping<Container>
-	implements FormFieldNativeMapping<Container,String,byte[]> {
+class JsonFormFieldNativeMapping<Container>
+	implements FormFieldNativeMapping<Container,Object,String> {
 
 	@Override
 	public
-	Optional<String> nativeToGeneric (
+	Optional<Object> nativeToGeneric (
 			@NonNull Container container,
-			@NonNull Optional<byte[]> nativeValue) {
+			@NonNull Optional<String> nativeValue) {
 
 		if (
 			isNotPresent (
@@ -28,17 +30,16 @@ class Utf8StringFormFieldNativeMapping<Container>
 		}
 
 		return Optional.of (
-			bytesToString (
-				nativeValue.get (),
-				"utf-8"));
+			JSONValue.parse (
+				nativeValue.get ()));
 
 	}
 
 	@Override
 	public
-	Optional<byte[]> genericToNative (
+	Optional<String> genericToNative (
 			@NonNull Container container,
-			@NonNull Optional<String> genericValue) {
+			@NonNull Optional<Object> genericValue) {
 
 		if (
 			isNotPresent (
@@ -48,9 +49,8 @@ class Utf8StringFormFieldNativeMapping<Container>
 		}
 
 		return Optional.of (
-			stringToBytes (
-				genericValue.get (),
-				"utf-8"));
+			JSONValue.toJSONString (
+				genericValue.get ()));
 
 	}
 

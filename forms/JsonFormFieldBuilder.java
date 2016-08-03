@@ -1,14 +1,15 @@
 package wbs.console.forms;
 
 import static wbs.framework.utils.etc.Misc.capitalise;
+import static wbs.framework.utils.etc.Misc.equal;
+import static wbs.framework.utils.etc.Misc.ifElse;
 import static wbs.framework.utils.etc.Misc.ifNull;
 import static wbs.framework.utils.etc.StringUtils.camelToSpaces;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import lombok.NonNull;
 
 import wbs.console.annotations.ConsoleModuleBuilderHandler;
 import wbs.framework.application.annotations.PrototypeComponent;
@@ -17,51 +18,48 @@ import wbs.framework.builder.annotations.BuildMethod;
 import wbs.framework.builder.annotations.BuilderParent;
 import wbs.framework.builder.annotations.BuilderSource;
 import wbs.framework.builder.annotations.BuilderTarget;
+import wbs.framework.utils.etc.BeanLogic;
 
 @SuppressWarnings ({ "rawtypes", "unchecked" })
-@PrototypeComponent ("uploadFormFieldBuilder")
+@PrototypeComponent ("jsonFormFieldBuilder")
 @ConsoleModuleBuilderHandler
 public
-class UploadFormFieldBuilder {
+class JsonFormFieldBuilder {
 
 	// dependencies
 
 	@Inject
-	FormFieldPluginManager formFieldPluginManager;
+	FormFieldPluginManagerImplementation formFieldPluginManager;
 
 	// prototype dependencies
 
 	@Inject
-	Provider<IdentityFormFieldInterfaceMapping>
-	identityFormFieldInterfaceMappingProvider;
+	Provider<ChainedFormFieldNativeMapping>
+	chainedFormFieldNativeMappingProvider;
 
 	@Inject
-	Provider<IdentityFormFieldNativeMapping>
-	identityFormFieldNativeMappingProvider;
+	Provider<HtmlFormFieldRenderer>
+	htmlFormFieldRendererProvider;
 
 	@Inject
-	Provider<NullFormFieldConstraintValidator>
-	nullFormFieldValueConstraintValidatorProvider;
+	Provider<JsonFormFieldNativeMapping>
+	jsonFormFieldNativeMappingProvider;
+
+	@Inject
+	Provider<JsonFormFieldInterfaceMapping>
+	jsonFormFieldInterfaceMappingProvider;
 
 	@Inject
 	Provider<ReadOnlyFormField>
 	readOnlyFormFieldProvider;
 
 	@Inject
-	Provider<RequiredFormFieldValueValidator>
-	requiredFormFieldValueValidatorProvider;
-
-	@Inject
 	Provider<SimpleFormFieldAccessor>
 	simpleFormFieldAccessorProvider;
 
 	@Inject
-	Provider<UploadFormFieldRenderer>
-	uploadFormFieldRendererProvider;
-
-	@Inject
-	Provider<UpdatableFormField>
-	updatableFormFieldProvider;
+	Provider<Utf8StringFormFieldNativeMapping>
+	utf8StringFormFieldNativeMappingProvider;
 
 	// builder
 
@@ -69,7 +67,7 @@ class UploadFormFieldBuilder {
 	FormFieldBuilderContext context;
 
 	@BuilderSource
-	UploadFormFieldSpec spec;
+	JsonFormFieldSpec spec;
 
 	@BuilderTarget
 	FormFieldSet formFieldSet;
@@ -79,7 +77,7 @@ class UploadFormFieldBuilder {
 	@BuildMethod
 	public
 	void build (
-			Builder builder) {
+			@NonNull Builder builder) {
 
 		String name =
 			spec.name ();
@@ -91,10 +89,12 @@ class UploadFormFieldBuilder {
 					camelToSpaces (
 						name)));
 
-		Boolean nullable =
-			ifNull (
-				spec.nullable (),
-				false);
+		// field type
+
+		Class<?> propertyClass =
+			BeanLogic.propertyClassForClass (
+				context.containerClass (),
+				name);
 
 		// accessor
 
@@ -105,37 +105,50 @@ class UploadFormFieldBuilder {
 				name)
 
 			.nativeClass (
-				FileUpload.class);
+				propertyClass);
+
+		// native mapping
 
 		FormFieldNativeMapping nativeMapping =
-			identityFormFieldNativeMappingProvider.get ();
+			ifElse (
+				equal (
+					propertyClass,
+					byte[].class),
 
-		// value validators
+			() ->
+				chainedFormFieldNativeMappingProvider.get ()
 
-		List<FormFieldValueValidator> valueValidators =
-			new ArrayList<> ();
+				.previousMapping (
+					jsonFormFieldNativeMappingProvider.get ())
 
-		if (! nullable) {
+				.nextMapping (
+					utf8StringFormFieldNativeMappingProvider.get ()),
 
-			valueValidators.add (
-				requiredFormFieldValueValidatorProvider.get ());
+			() ->
+				chainedFormFieldNativeMappingProvider.get ()
 
-		}
+				.previousMapping (
+					jsonFormFieldNativeMappingProvider.get ())
 
-		// constraint validator
+				.nextMapping (
+					formFieldPluginManager.getNativeMappingRequired (
+						context,
+						context.containerClass (),
+						name,
+						String.class,
+						propertyClass))
 
-		FormFieldConstraintValidator constraintValidator =
-			nullFormFieldValueConstraintValidatorProvider.get ();
+		);
 
 		// interface mapping
 
 		FormFieldInterfaceMapping interfaceMapping =
-			identityFormFieldInterfaceMappingProvider.get ();
+			jsonFormFieldInterfaceMappingProvider.get ();
 
 		// renderer
 
 		FormFieldRenderer renderer =
-			uploadFormFieldRendererProvider.get ()
+			htmlFormFieldRendererProvider.get ()
 
 			.name (
 				name)
@@ -143,18 +156,10 @@ class UploadFormFieldBuilder {
 			.label (
 				label);
 
-		// update hook
-
-		FormFieldUpdateHook updateHook =
-			formFieldPluginManager.getUpdateHook (
-				context,
-				context.containerClass (),
-				name);
-
 		// form field
 
 		formFieldSet.addFormField (
-			updatableFormFieldProvider.get ()
+			readOnlyFormFieldProvider.get ()
 
 			.name (
 				name)
@@ -168,20 +173,11 @@ class UploadFormFieldBuilder {
 			.nativeMapping (
 				nativeMapping)
 
-			.valueValidators (
-				valueValidators)
-
-			.constraintValidator (
-				constraintValidator)
-
 			.interfaceMapping (
 				interfaceMapping)
 
 			.renderer (
 				renderer)
-
-			.updateHook (
-				updateHook)
 
 		);
 
