@@ -3,6 +3,7 @@ package wbs.console.forms;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import wbs.console.forms.DurationFormFieldInterfaceMapping.Format;
 import wbs.console.module.ConsoleModuleData;
 
 import wbs.framework.component.annotations.PrototypeComponent;
@@ -11,11 +12,11 @@ import wbs.framework.data.annotations.DataClass;
 
 @Accessors (fluent = true)
 @Data
-@DataClass ("seconds-field")
-@PrototypeComponent ("secondsFormFieldSpec")
+@DataClass ("duration-field")
+@PrototypeComponent ("durationFormFieldSpec")
 @ConsoleModuleData
 public
-class SecondsFormFieldSpec {
+class DurationFormFieldSpec {
 
 	@DataAttribute
 	String name;
@@ -30,6 +31,6 @@ class SecondsFormFieldSpec {
 	Boolean readOnly;
 
 	@DataAttribute
-	DurationFormFieldInterfaceMapping.Format format;
+	Format format;
 
 }

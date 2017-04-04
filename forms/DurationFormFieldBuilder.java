@@ -9,7 +9,10 @@ import java.util.List;
 
 import javax.inject.Provider;
 
+import org.joda.time.Duration;
+
 import wbs.console.annotations.ConsoleModuleBuilderHandler;
+import wbs.console.forms.DurationFormFieldInterfaceMapping.Format;
 
 import wbs.framework.builder.Builder;
 import wbs.framework.builder.annotations.BuildMethod;
@@ -20,13 +23,11 @@ import wbs.framework.component.annotations.PrototypeComponent;
 import wbs.framework.component.annotations.PrototypeDependency;
 import wbs.framework.component.annotations.SingletonDependency;
 
-import wbs.utils.etc.PropertyUtils;
-
 @SuppressWarnings ({ "rawtypes", "unchecked" })
-@PrototypeComponent ("secondsFormFieldBuilder")
+@PrototypeComponent ("durationFormFieldBuilder")
 @ConsoleModuleBuilderHandler
 public
-class SecondsFormFieldBuilder {
+class DurationFormFieldBuilder {
 
 	// singleton dependencies
 
@@ -37,7 +38,11 @@ class SecondsFormFieldBuilder {
 
 	@PrototypeDependency
 	Provider <DurationFormFieldInterfaceMapping>
-	durationFormFieldInterfaceMappingProvider;
+	durationFormFieldInterfaceMapping;
+
+	@PrototypeDependency
+	Provider <IdentityFormFieldNativeMapping>
+	identityFormFieldNativeMappingProvider;
 
 	@PrototypeDependency
 	Provider <NullFormFieldConstraintValidator>
@@ -50,14 +55,6 @@ class SecondsFormFieldBuilder {
 	@PrototypeDependency
 	Provider <RequiredFormFieldValueValidator>
 	requiredFormFieldValueValidatorProvider;
-
-	@PrototypeDependency
-	Provider <SecondsFormFieldNativeMapping>
-	secondsFormFieldNativeMappingProvider;
-
-	@PrototypeDependency
-	Provider <SecondsFormFieldValueValidator>
-	secondsFormFieldValueValidatorProvider;
 
 	@PrototypeDependency
 	Provider <SimpleFormFieldAccessor>
@@ -77,7 +74,7 @@ class SecondsFormFieldBuilder {
 	FormFieldBuilderContext context;
 
 	@BuilderSource
-	SecondsFormFieldSpec spec;
+	DurationFormFieldSpec spec;
 
 	@BuilderTarget
 	FormFieldSet formFieldSet;
@@ -109,15 +106,10 @@ class SecondsFormFieldBuilder {
 				spec.readOnly (),
 				false);
 
-		DurationFormFieldInterfaceMapping.Format format =
+		Format format =
 			ifNull (
 				spec.format (),
-				DurationFormFieldInterfaceMapping.Format.textual);
-
-		Class<?> propertyClass =
-			PropertyUtils.propertyClassForClass (
-				context.containerClass (),
-				name);
+				Format.textual);
 
 		// accessor
 
@@ -128,12 +120,12 @@ class SecondsFormFieldBuilder {
 				name)
 
 			.nativeClass (
-				propertyClass);
+				Duration.class);
 
 		// native mapping
 
 		FormFieldNativeMapping nativeMapping =
-			secondsFormFieldNativeMappingProvider.get ();
+			identityFormFieldNativeMappingProvider.get ();
 
 		// value validators
 
@@ -147,9 +139,6 @@ class SecondsFormFieldBuilder {
 
 		}
 
-		valueValidators.add (
-			secondsFormFieldValueValidatorProvider.get ());
-
 		// constraint validator
 
 		FormFieldConstraintValidator constraintValidator =
@@ -158,7 +147,7 @@ class SecondsFormFieldBuilder {
 		// interface mapping
 
 		FormFieldInterfaceMapping interfaceMapping =
-			durationFormFieldInterfaceMappingProvider.get ()
+			durationFormFieldInterfaceMapping.get ()
 
 			.label (
 				label)
