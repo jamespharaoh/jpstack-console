@@ -1,37 +1,41 @@
-package wbs.console.supervisor;
-
-import java.util.ArrayList;
-import java.util.List;
+package wbs.console.forms.context;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import wbs.console.module.ConsoleModuleData;
 
 import wbs.framework.component.annotations.PrototypeComponent;
 import wbs.framework.data.annotations.DataAttribute;
-import wbs.framework.data.annotations.DataChildren;
 import wbs.framework.data.annotations.DataClass;
+import wbs.framework.data.annotations.DataParent;
 
 @Accessors (fluent = true)
 @Data
-@DataClass ("data-set")
-@PrototypeComponent ("supervisorDataSetSpec")
+@EqualsAndHashCode (of = "name")
+@ToString (of = "name")
+@DataClass ("fields")
+@PrototypeComponent ("multiFormContextFieldsSpec")
 public
-class SupervisorDataSetSpec
+class MultiFormContextFieldsSpec
 	implements ConsoleModuleData {
+
+	// tree
+
+	@DataParent
+	MultiFormContextSpec multiFormContext;
+
+	// attributes
 
 	@DataAttribute (
 		required = true)
 	String name;
 
 	@DataAttribute (
-		name = "provider",
+		name = "fields",
 		required = true)
-	String providerBeanName;
-
-	@DataChildren
-	List <SupervisorDataSetConditionSpec> conditions =
-		new ArrayList<> ();
+	String formFieldsName;
 
 }

@@ -1,6 +1,5 @@
-package wbs.console.context;
+package wbs.console.forms.context;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -8,29 +7,29 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import wbs.console.forms.types.FormType;
 import wbs.console.module.ConsoleModuleData;
-import wbs.console.module.ConsoleModuleSpec;
 
 import wbs.framework.component.annotations.PrototypeComponent;
-import wbs.framework.data.annotations.DataAncestor;
 import wbs.framework.data.annotations.DataAttribute;
 import wbs.framework.data.annotations.DataChildren;
 import wbs.framework.data.annotations.DataClass;
+import wbs.framework.data.annotations.DataParent;
 
 @Accessors (fluent = true)
 @Data
 @EqualsAndHashCode (of = "name")
 @ToString (of = "name")
-@DataClass ("simple-context")
-@PrototypeComponent ("simpleConsoleContextSpec")
+@DataClass ("multi-form-context")
+@PrototypeComponent ("multiFormContextSpec")
 public
-class SimpleConsoleContextSpec
+class MultiFormContextSpec
 	implements ConsoleModuleData {
 
 	// tree attributes
 
-	@DataAncestor
-	ConsoleModuleSpec consoleModule;
+	@DataParent
+	FormContextsSpec formContexts;
 
 	// attributes
 
@@ -38,17 +37,21 @@ class SimpleConsoleContextSpec
 		required = true)
 	String name;
 
-	@DataAttribute
-	String typeName;
+	@DataAttribute (
+		name = "class",
+		required = true)
+	String className;
 
-	@DataAttribute
-	String title;
+	@DataAttribute (
+		name = "type",
+		required = true)
+	FormType formType;
 
 	// children
 
 	@DataChildren (
-		direct = true)
-	List<Object> children =
-		new ArrayList<Object> ();
+		direct = true,
+		childElement = "fields")
+	List <MultiFormContextFieldsSpec> fields;
 
 }

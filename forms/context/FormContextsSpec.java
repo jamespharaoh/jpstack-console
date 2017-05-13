@@ -1,4 +1,4 @@
-package wbs.console.supervisor;
+package wbs.console.forms.context;
 
 import java.util.List;
 
@@ -6,32 +6,31 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import wbs.console.module.ConsoleModuleData;
+import wbs.console.module.ConsoleModuleSpec;
 
 import wbs.framework.component.annotations.PrototypeComponent;
-import wbs.framework.data.annotations.DataAttribute;
 import wbs.framework.data.annotations.DataChildren;
 import wbs.framework.data.annotations.DataClass;
 import wbs.framework.data.annotations.DataParent;
 
 @Accessors (fluent = true)
 @Data
-@DataClass ("integer-in-condition")
-@PrototypeComponent ("supervisorIntegerInConditionSpec")
+@DataClass ("form-contexts")
+@PrototypeComponent ("formContextsSpec")
 public
-class SupervisorIntegerInConditionSpec
+class FormContextsSpec
 	implements ConsoleModuleData {
 
-	@DataParent
-	SupervisorConfigSpec supervisorConfig;
+	// tree attributes
 
-	@DataAttribute (
-		required = true)
-	String name;
+	@DataParent
+	ConsoleModuleSpec consoleModule;
+
+	// children
 
 	@DataChildren (
-		direct = true,
-		childElement = "item",
-		valueAttribute = "value")
-	List <Long> values;
+		direct = true)
+	List <FormContextSpec> formContexts;
+
 
 }
