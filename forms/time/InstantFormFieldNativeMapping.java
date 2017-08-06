@@ -1,40 +1,40 @@
 package wbs.console.forms.time;
 
 import static wbs.utils.etc.OptionalUtils.optionalAbsent;
+import static wbs.utils.etc.OptionalUtils.optionalGetRequired;
 import static wbs.utils.etc.OptionalUtils.optionalIsNotPresent;
 import static wbs.utils.etc.OptionalUtils.optionalOf;
+import static wbs.utils.time.TimeUtils.toInstant;
 
 import com.google.common.base.Optional;
 
 import lombok.NonNull;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
 
 import wbs.console.forms.types.ConsoleFormNativeMapping;
+import wbs.console.misc.ConsoleUserHelper;
 
 import wbs.framework.component.annotations.ClassSingletonDependency;
 import wbs.framework.component.annotations.PrototypeComponent;
+import wbs.framework.component.annotations.SingletonDependency;
 import wbs.framework.database.NestedTransaction;
 import wbs.framework.database.Transaction;
 import wbs.framework.logging.LogContext;
 
-@PrototypeComponent ("timestampTimezonePairFormFieldNativeMapping")
+@PrototypeComponent ("instantFormFieldNativeMapping")
 public
-class TimestampTimezonePairFormFieldNativeMapping <Container>
-	implements ConsoleFormNativeMapping <
-		Container,
-		DateTime,
-		Pair <Instant, String>
-	> {
+class InstantFormFieldNativeMapping <Container>
+	implements ConsoleFormNativeMapping <Container, DateTime, Instant> {
 
 	// singleton dependencies
 
 	@ClassSingletonDependency
 	LogContext logContext;
+
+	@SingletonDependency
+	ConsoleUserHelper consoleUserHelper;
 
 	// implementation
 
@@ -43,32 +43,43 @@ class TimestampTimezonePairFormFieldNativeMapping <Container>
 	Optional <DateTime> nativeToGeneric (
 			@NonNull Transaction parentTransaction,
 			@NonNull Container container,
-			@NonNull Optional <Pair <Instant, String>> nativeValue) {
+			@NonNull Optional <Instant> nativeValueOptional) {
 
-		if (
-			optionalIsNotPresent (
-				nativeValue)
+		try (
+
+			NestedTransaction transaction =
+				parentTransaction.nestTransaction (
+					logContext,
+					"nativeToGeneric");
+
 		) {
-			return optionalAbsent ();
+
+			if (
+				optionalIsNotPresent (
+					nativeValueOptional)
+			) {
+				return optionalAbsent ();
+			}
+
+			Instant nativeValue =
+				optionalGetRequired (
+					nativeValueOptional);
+
+			return optionalOf (
+				nativeValue.toDateTime (
+					consoleUserHelper.timezone (
+						transaction)));
+
 		}
-
-		DateTimeZone timeZone =
-			DateTimeZone.forID (
-				nativeValue.get ().getRight ());
-
-		return optionalOf (
-			new DateTime (
-				nativeValue.get ().getLeft (),
-				timeZone));
 
 	}
 
 	@Override
 	public
-	Optional <Pair <Instant, String>> genericToNative (
+	Optional <Instant> genericToNative (
 			@NonNull Transaction parentTransaction,
 			@NonNull Container container,
-			@NonNull Optional <DateTime> genericValue) {
+			@NonNull Optional <DateTime> genericValueOptional) {
 
 		try (
 
@@ -79,14 +90,20 @@ class TimestampTimezonePairFormFieldNativeMapping <Container>
 
 		) {
 
-			if (! genericValue.isPresent ()) {
+			if (
+				optionalIsNotPresent (
+					genericValueOptional)
+			) {
 				return optionalAbsent ();
 			}
 
+			DateTime genericValue =
+				optionalGetRequired (
+					genericValueOptional);
+
 			return optionalOf (
-				Pair.of (
-					genericValue.get ().toInstant (),
-					genericValue.get ().getZone ().getID ()));
+				toInstant (
+					genericValue));
 
 		}
 
