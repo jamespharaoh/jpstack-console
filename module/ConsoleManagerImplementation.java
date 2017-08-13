@@ -1218,7 +1218,8 @@ class ConsoleManagerImplementation
 
 			ConsoleHelper <?> consoleHelper =
 				objectManager.consoleHelperForNameRequired (
-					name);
+					camelToHyphen (
+						name));
 
 			ConsoleHelperProvider <?> consoleHelperProvider =
 				consoleHelper.consoleHelperProvider ();

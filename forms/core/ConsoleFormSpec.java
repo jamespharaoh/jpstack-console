@@ -16,6 +16,8 @@ import wbs.framework.data.annotations.DataChildren;
 import wbs.framework.data.annotations.DataClass;
 import wbs.framework.data.annotations.DataParent;
 
+import wbs.utils.string.StringFormat;
+
 @Accessors (fluent = true)
 @Data
 @EqualsAndHashCode (of = "name")
@@ -34,15 +36,18 @@ class ConsoleFormSpec
 	// attributes
 
 	@DataAttribute (
-		required = true)
+		required = true,
+		format = StringFormat.hyphenated)
 	String name;
 
 	@DataAttribute (
-		name = "object-type")
+		name = "object-type",
+		format = StringFormat.hyphenated)
 	String objectTypeName;
 
 	@DataAttribute (
-		name = "class")
+		name = "class",
+		format = StringFormat.className)
 	String className;
 
 	@DataAttribute (
@@ -51,7 +56,8 @@ class ConsoleFormSpec
 	FormType formType;
 
 	@DataAttribute (
-		name = "fields-provider")
+		name = "fields-provider",
+		format = StringFormat.camelCase)
 	String fieldsProviderName;
 
 	// children

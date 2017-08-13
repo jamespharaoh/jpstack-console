@@ -736,7 +736,8 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 
 				ObjectHelper <?> objectHelper =
 					objectManager.objectHelperForObjectRequired (
-						optionValue);
+						genericCastUnchecked (
+							optionValue));
 
 				boolean selected =
 					optionalValueEqualWithClass (

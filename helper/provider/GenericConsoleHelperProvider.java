@@ -105,7 +105,7 @@ class GenericConsoleHelperProvider <
 	Class <RecordType> objectClass;
 
 	@Getter @Setter
-	String objectName;
+	String objectTypeCamel;
 
 	@Getter @Setter
 	String idKey;
@@ -166,8 +166,8 @@ class GenericConsoleHelperProvider <
 			objectClass (
 				objectHelper.objectClass ());
 
-			objectName (
-				objectHelper.objectName ());
+			objectTypeCamel (
+				objectHelper.objectTypeCamel ());
 
 			idKey (
 				spec.idKey ());
@@ -176,12 +176,12 @@ class GenericConsoleHelperProvider <
 				ifNull (
 					spec.defaultListContextName (),
 					naivePluralise (
-						objectName ())));
+						objectTypeCamel ())));
 
 			defaultObjectContextName (
 				ifNull (
 					spec.defaultObjectContextName (),
-					objectHelper.objectName ()));
+					objectHelper.objectTypeCamel ()));
 
 			if (
 				isNotNull (
@@ -230,7 +230,7 @@ class GenericConsoleHelperProvider <
 			String viewPrivKey =
 				stringFormat (
 					"%s.view",
-					objectName ());
+					objectTypeCamel ());
 
 			for (
 				PrivKeySpec privKeySpec
@@ -331,7 +331,7 @@ class GenericConsoleHelperProvider <
 
 			transaction.debugFormat (
 				"Running post processor for %s",
-				objectName ());
+				objectHelper.objectTypeHyphen ());
 
 			// lookup object
 

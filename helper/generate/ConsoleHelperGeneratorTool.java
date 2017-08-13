@@ -75,8 +75,8 @@ class ConsoleHelperGeneratorTool {
 							taskLogger,
 							"generateConsoleHelpers.loop",
 							keyEqualsString (
-								"model.objectName",
-								model.objectName ()));
+								"model.objectType",
+								model.objectTypeHyphen ()));
 
 				) {
 
@@ -93,7 +93,7 @@ class ConsoleHelperGeneratorTool {
 
 						nestedTaskLogger.errorFormat (
 							"Error writing console helper for %s",
-							model.objectName ());
+							model.objectTypeHyphen ());
 
 						numFailures ++;
 

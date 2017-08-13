@@ -9,6 +9,7 @@ import static wbs.utils.string.FormatWriterUtils.formatWriterConsumerToString;
 import static wbs.utils.string.StringUtils.stringFormat;
 
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 import com.google.common.base.Optional;
 
@@ -75,6 +76,11 @@ interface ConsoleObjectManagerMethods {
 					"No console helper for object type %s",
 					objectTypeName)));
 
+	}
+
+	default
+	Function <String, ConsoleHelper <?>> consoleHelperForNameRequired () {
+		return this::consoleHelperForNameRequired;
 	}
 
 	void writeTdForObject (

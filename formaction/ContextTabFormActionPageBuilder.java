@@ -2,8 +2,10 @@ package wbs.console.formaction;
 
 import static wbs.utils.etc.NullUtils.anyIsNotNull;
 import static wbs.utils.etc.NullUtils.ifNull;
-import static wbs.utils.string.StringUtils.camelToSpaces;
 import static wbs.utils.string.StringUtils.capitalise;
+import static wbs.utils.string.StringUtils.hyphenToCamel;
+import static wbs.utils.string.StringUtils.hyphenToSpaces;
+import static wbs.utils.string.StringUtils.hyphenToSpacesCapitalise;
 import static wbs.utils.string.StringUtils.stringFormat;
 
 import lombok.NonNull;
@@ -87,7 +89,8 @@ class ContextTabFormActionPageBuilder
 
 	// state
 
-	String name;
+	String nameHyphen;
+	String nameCamel;
 	String helperBeanName;
 	String tabName;
 	String tabLabel;
@@ -341,8 +344,12 @@ class ContextTabFormActionPageBuilder
 
 		) {
 
-			name =
+			nameHyphen =
 				spec.name ();
+
+			nameCamel =
+				hyphenToCamel (
+					nameHyphen);
 
 			helperBeanName =
 				stringFormat (
@@ -351,24 +358,23 @@ class ContextTabFormActionPageBuilder
 					capitalise (
 						ifNull (
 							spec.helperName (),
-							name)));
+							nameCamel)));
 
 			tabName =
 				stringFormat (
 					"%s.%s",
 					container.pathPrefix (),
-					name);
+					nameCamel);
 
 			tabLabel =
-				capitalise (
-					camelToSpaces (
-						name));
+				hyphenToSpacesCapitalise (
+					nameHyphen);
 
 			localFile =
 				stringFormat (
 					"%s.%s",
 					container.pathPrefix (),
-					name);
+					nameCamel);
 
 			responderProvider =
 				componentManager.getComponentProviderRequired (
@@ -377,7 +383,7 @@ class ContextTabFormActionPageBuilder
 						"%s%sFormResponder",
 						container.newBeanNamePrefix (),
 						capitalise (
-							name)),
+							nameCamel)),
 					WebResponder.class);
 
 			actionName =
@@ -385,15 +391,15 @@ class ContextTabFormActionPageBuilder
 					"%s%sFormAction",
 					container.existingBeanNamePrefix (),
 					capitalise (
-						name));
+						nameCamel));
 
 			title =
 				capitalise (
 					stringFormat (
 						"%s %s",
 						container.friendlyName (),
-						camelToSpaces (
-							name)));
+						hyphenToSpaces (
+							nameHyphen)));
 
 		}
 

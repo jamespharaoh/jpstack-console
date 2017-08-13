@@ -4,6 +4,7 @@ import static wbs.utils.collection.CollectionUtils.emptyList;
 import static wbs.utils.etc.Misc.maybeList;
 import static wbs.utils.etc.NullUtils.ifNull;
 import static wbs.utils.etc.TypeUtils.genericCastUnchecked;
+import static wbs.utils.string.StringUtils.camelToHyphen;
 import static wbs.utils.string.StringUtils.camelToSpaces;
 import static wbs.utils.string.StringUtils.capitalise;
 import static wbs.utils.string.StringUtils.joinWithoutSeparator;
@@ -357,7 +358,7 @@ class ObjectContextBuilder <
 					consoleHelper)
 
 				.postProcessorName (
-					consoleHelper.objectName ())
+					consoleHelper.objectTypeCamel ())
 
 				.cryptor (
 					cryptor));
@@ -391,7 +392,7 @@ class ObjectContextBuilder <
 					consoleHelper)
 
 				.postProcessorName (
-					consoleHelper.objectName ())
+					consoleHelper.objectTypeCamel ())
 
 				.cryptor (
 					cryptor)
@@ -445,7 +446,7 @@ class ObjectContextBuilder <
 
 					.defaultLabel (
 						capitalise (
-							consoleHelper.friendlyName ())),
+							consoleHelper.friendlyNameSingular ())),
 
 				emptyList ());
 
@@ -543,7 +544,7 @@ class ObjectContextBuilder <
 						consoleHelper)
 
 					.postProcessorName (
-						consoleHelper.objectName ())
+						consoleHelper.objectTypeCamel ())
 
 					.cryptor (
 						cryptor)
@@ -615,7 +616,8 @@ class ObjectContextBuilder <
 			consoleHelper =
 				genericCastUnchecked (
 					objectManager.consoleHelperForNameRequired (
-						spec.objectName ()));
+						camelToHyphen (
+							spec.objectName ())));
 
 			name =
 				spec.name ();
@@ -643,10 +645,10 @@ class ObjectContextBuilder <
 					stringFormat (
 						"%s {%s}",
 						capitalise (
-							consoleHelper.friendlyName ()),
+							consoleHelper.friendlyNameSingular ()),
 						stringFormat (
 							"%sName",
-							consoleHelper.objectName ())));
+							consoleHelper.objectTypeCamel ())));
 
 			defaultFileName =
 				Optional.fromNullable (

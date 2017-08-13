@@ -99,7 +99,6 @@ class ConsoleHelperGenerator {
 	Model <?> parentModel;
 
 	String packageName;
-	String recordClassName;
 	String objectHelperInterfaceName;
 	String objectHelperImplementationName;
 
@@ -193,35 +192,29 @@ class ConsoleHelperGenerator {
 					collectionSize (
 						modelPackageNameParts) - 1));
 
-		recordClassName =
-			stringFormat (
-				"%sRec",
-				capitalise (
-					model.objectName ()));
-
 		objectHelperInterfaceName =
 			stringFormat (
 				"%sObjectHelper",
 				capitalise (
-					model.objectName ()));
+					model.objectTypeCamel ()));
 
 		objectHelperImplementationName =
 			stringFormat (
 				"%sObjectHelperImplementation",
 				capitalise (
-					model.objectName ()));
+					model.objectTypeCamel ()));
 
 		consoleHelperInterfaceName =
 			stringFormat (
 				"%sConsoleHelper",
 				capitalise (
-					model.objectName ()));
+					model.objectTypeCamel ()));
 
 		consoleHelperImplementationName =
 			stringFormat (
 				"%sConsoleHelperImplementation",
 				capitalise (
-					model.objectName ()));
+					model.objectTypeCamel ()));
 
 		// dao
 
@@ -229,7 +222,7 @@ class ConsoleHelperGenerator {
 			stringFormat (
 				"%sDaoMethods",
 				capitalise (
-					model.objectName ()));
+					model.objectTypeCamel ()));
 
 		Optional <Class <?>> daoMethodsInterfaceOptional =
 			classForName (
@@ -252,14 +245,14 @@ class ConsoleHelperGenerator {
 				stringFormat (
 					"%sDao",
 					uncapitalise (
-						model.objectName ()));
+						model.objectTypeCamel ()));
 
 			daoImplementationClassName =
 				stringFormat (
 					"%s.hibernate.%sDaoHibernate",
 					packageName,
 					capitalise (
-						model.objectName ()));
+						model.objectTypeCamel ()));
 
 		} else {
 
@@ -274,7 +267,7 @@ class ConsoleHelperGenerator {
 			stringFormat (
 				"%sObjectHelperMethods",
 				capitalise (
-					model.objectName ()));
+					model.objectTypeCamel ()));
 
 		Optional <Class <?>> extraMethodsInterfaceOptional =
 			classForName (
@@ -297,14 +290,14 @@ class ConsoleHelperGenerator {
 				stringFormat (
 					"%sObjectHelperMethodsImplementation",
 					uncapitalise (
-						model.objectName ()));
+						model.objectTypeCamel ()));
 
 			extraImplementationClassName =
 				stringFormat (
 					"%s.logic.%sObjectHelperMethodsImplementation",
 					packageName,
 					capitalise (
-						model.objectName ()));
+						model.objectTypeCamel ()));
 
 		} else {
 
@@ -320,12 +313,12 @@ class ConsoleHelperGenerator {
 				"%s.console.%sConsoleHooks",
 				packageName,
 				capitalise (
-					model.objectName ()));
+					model.objectTypeCamel ()));
 
 		consoleHooksComponentName =
 			stringFormat (
 				"%sConsoleHooks",
-				model.objectName ());
+				model.objectTypeCamel ());
 
 		if (
 			fileExistsFormat (
@@ -423,7 +416,7 @@ class ConsoleHelperGenerator {
 							imports.registerFormat (
 								"%s.model.%s",
 								packageName,
-								recordClassName)))
+								model.objectClassName ())))
 
 				.addImplementsFormat (
 					"%s.console.%s",
@@ -490,7 +483,7 @@ class ConsoleHelperGenerator {
 			ConsoleHelperProvider.class,
 			stringFormat (
 				"%hConsoleHelperProvider",
-				model.objectName ()));
+				model.objectTypeCamel ()));
 
 		classWriter.addNamedSingletonDependency (
 			stringFormat (
@@ -499,7 +492,7 @@ class ConsoleHelperGenerator {
 				objectHelperImplementationName),
 			stringFormat (
 				"%sObjectHelper",
-				model.objectName ()));
+				model.objectTypeCamel ()));
 
 		if (hasDao) {
 
@@ -538,7 +531,7 @@ class ConsoleHelperGenerator {
 					imports.registerFormat (
 						"%s.model.%s",
 						packageName,
-						recordClassName)),
+						model.objectClassName ())),
 			"consoleHelperImplementation");
 
 	}
@@ -584,7 +577,7 @@ class ConsoleHelperGenerator {
 						stringFormat (
 							"%s.model.%s",
 							packageName,
-							recordClassName))),
+							model.objectClassName ()))),
 			"consoleHelperImplementation");
 
 	}
@@ -653,7 +646,7 @@ class ConsoleHelperGenerator {
 
 			formatWriter.writeLineFormat (
 				"\t%sObjectHelper.objectModel ();",
-				model.objectName ());
+				model.objectTypeCamel ());
 
 			formatWriter.writeNewline ();
 
@@ -691,12 +684,12 @@ class ConsoleHelperGenerator {
 				.propertyFormat (
 					"objectHelper",
 					"%sObjectHelper",
-					model.objectName ())
+					model.objectTypeCamel ())
 
 				.propertyFormat (
 					"consoleHelperProvider",
 					"%sConsoleHelperProvider",
-					model.objectName ())
+					model.objectTypeCamel ())
 
 				.property (
 					"consoleHooks",
@@ -716,7 +709,7 @@ class ConsoleHelperGenerator {
 
 				formatWriter.writeLineFormat (
 					"\t%sObjectHelper.%sImplementation ();",
-					model.objectName (),
+					model.objectTypeCamel (),
 					componentName);
 
 				formatWriter.writeNewline ();

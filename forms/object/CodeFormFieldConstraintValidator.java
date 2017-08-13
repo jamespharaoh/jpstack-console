@@ -6,7 +6,6 @@ import static wbs.utils.etc.OptionalUtils.optionalGetRequired;
 import static wbs.utils.etc.OptionalUtils.optionalIsPresent;
 import static wbs.utils.etc.OptionalUtils.optionalOfFormat;
 import static wbs.utils.etc.TypeUtils.genericCastUnchecked;
-import static wbs.utils.string.StringUtils.camelToSpaces;
 
 import java.util.Set;
 
@@ -114,8 +113,7 @@ class CodeFormFieldConstraintValidator <
 
 					return optionalOfFormat (
 						"There is already a %s ",
-						camelToSpaces (
-							consoleHelper.objectName ()),
+						consoleHelper.objectTypeHyphen (),
 						"with parent %s ",
 						objectManager.objectPath (
 							transaction,

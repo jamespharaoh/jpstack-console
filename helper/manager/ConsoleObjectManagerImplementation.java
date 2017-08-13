@@ -102,7 +102,7 @@ class ConsoleObjectManagerImplementation
 			consoleHelpersByObjectName =
 				mapWithDerivedKey (
 					consoleHelpers,
-					ConsoleHelper::objectName);
+					ConsoleHelper::objectTypeHyphen);
 
 		}
 
@@ -409,14 +409,14 @@ class ConsoleObjectManagerImplementation
 
 			return stringFormat (
 				"%s_%s",
-				objectHelper.objectName (),
+				objectHelper.objectTypeHyphen (),
 				objectHelper.getTypeCode (
 					genericCastUnchecked (
 						object)));
 
 		} else {
 
-			return objectHelper.objectName ();
+			return objectHelper.objectTypeHyphen ();
 
 		}
 
@@ -647,9 +647,9 @@ class ConsoleObjectManagerImplementation
 	}
 
 	@Override
-	public
-	ObjectHelper<?> objectHelperForObjectRequired (
-			Record<?> object) {
+	public <Type extends Record <Type>>
+	ObjectHelper <Type> objectHelperForObjectRequired (
+			Type object) {
 
 		return objectManager.objectHelperForObjectRequired (
 			object);

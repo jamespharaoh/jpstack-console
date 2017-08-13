@@ -11,7 +11,7 @@ interface ConsoleHelperProvider <
 	RecordType extends Record <RecordType>
 > {
 
-	String objectName ();
+	String objectTypeCamel ();
 
 	Class <RecordType> objectClass ();
 
