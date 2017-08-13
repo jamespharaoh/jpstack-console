@@ -165,8 +165,8 @@ class ObjectFormFieldBuilder
 
 			String label =
 				ifNull (
-					spec.label (),
-					capitalise (
+					() -> spec.label (),
+					() -> capitalise (
 						camelToSpaces (
 							name.endsWith ("Id")
 								? name.substring (
