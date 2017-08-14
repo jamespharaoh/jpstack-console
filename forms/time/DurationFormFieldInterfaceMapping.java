@@ -150,7 +150,7 @@ class DurationFormFieldInterfaceMapping <Container>
 				case numeric:
 
 					return successResultPresent (
-						durationFormatter.durationStringNumeric (
+						durationFormatter.durationStringNumericSeconds (
 							optionalGetRequired (
 								genericValue)));
 

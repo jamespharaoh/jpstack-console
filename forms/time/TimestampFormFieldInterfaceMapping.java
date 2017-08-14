@@ -283,7 +283,7 @@ class TimestampFormFieldInterfaceMapping <Container>
 				case time:
 
 					return successResultPresent (
-						timeFormatter.timeString (
+						timeFormatter.timeStringSeconds (
 							timezone,
 							genericValue.get ()));
 
@@ -348,7 +348,7 @@ class TimestampFormFieldInterfaceMapping <Container>
 				case time:
 
 					return successResultPresent (
-						timeFormatter.timeString (
+						timeFormatter.timeStringSeconds (
 							genericValue.get ()));
 
 				default:
