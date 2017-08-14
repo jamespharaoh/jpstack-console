@@ -955,12 +955,14 @@ class ConsoleObjectManagerImplementation
 	List <Pair <Record <?>, String>> verifyData (
 			@NonNull Transaction parentTransaction,
 			@NonNull Record <?> object,
-			@NonNull Boolean recurse) {
+			@NonNull Boolean recurse,
+			@NonNull Boolean forUpdate) {
 
 		return objectManager.verifyData (
 			parentTransaction,
 			object,
-			recurse);
+			recurse,
+			forUpdate);
 
 	}
 

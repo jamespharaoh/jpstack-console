@@ -52,12 +52,12 @@ class ObjectContext
 	String parentContextTabName;
 
 	@Getter @Setter
-	Map<String,ConsoleContextTab> contextTabs =
-		new LinkedHashMap<String,ConsoleContextTab> ();
+	Map <String, ConsoleContextTab> contextTabs =
+		new LinkedHashMap<> ();
 
 	@Getter @Setter
-	Map<String,WebFile> files =
-		new LinkedHashMap<String,WebFile> ();
+	Map <String, WebFile> files =
+		new LinkedHashMap<> ();
 
 	@Getter @Setter
 	String requestIdKey;
@@ -78,9 +78,9 @@ class ObjectContext
 	Cryptor cryptor;
 
 	@Getter @Setter
-	Map<String,Object> stuff;
+	Map <String, Object> stuff;
 
 	@Getter @Setter
-	Optional<String> defaultFileName;
+	Optional <String> defaultFileName;
 
 }

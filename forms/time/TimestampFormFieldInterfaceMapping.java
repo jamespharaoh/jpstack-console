@@ -266,27 +266,6 @@ class TimestampFormFieldInterfaceMapping <Container>
 							timezone,
 							genericValue.get ()));
 
-				case timestampTimezoneSecondLong:
-
-					return successResultPresent (
-						timeFormatter.timestampTimezoneSecondLongString (
-							timezone,
-							genericValue.get ()));
-
-				case timestampTimezoneMinuteLong:
-
-					return successResultPresent (
-						timeFormatter.timestampTimezoneMinuteLongString (
-							timezone,
-							genericValue.get ()));
-
-				case timestampTimezoneHourLong:
-
-					return successResultPresent (
-						timeFormatter.timestampTimezoneHourLongString (
-							timezone,
-							genericValue.get ()));
-
 				case dateLong:
 
 					return successResultPresent (

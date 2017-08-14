@@ -327,7 +327,9 @@ class ObjectContextBuilder <
 
 				.title (
 					capitalise (
-						consoleHelper.shortNamePlural ())));
+						consoleHelper.shortNamePlural ()))
+
+			);
 
 			consoleModule.addContext (
 				objectContextProvider.provide (
@@ -361,7 +363,9 @@ class ObjectContextBuilder <
 					consoleHelper.objectTypeCamel ())
 
 				.cryptor (
-					cryptor));
+					cryptor)
+
+			);
 
 			consoleModule.addContext (
 				objectContextProvider.provide (
@@ -398,7 +402,9 @@ class ObjectContextBuilder <
 					cryptor)
 
 				.parentContextTabName (
-					"link:" + name));
+					"link:" + name)
+
+			);
 
 		}
 
@@ -516,7 +522,9 @@ class ObjectContextBuilder <
 						parentContextName)
 
 					.parentContextTabName (
-						resolvedContextLink.tabName ()));
+						resolvedContextLink.tabName ())
+
+				);
 
 				consoleModule.addContext (
 					objectContextProvider.provide (
@@ -553,7 +561,9 @@ class ObjectContextBuilder <
 						parentContextName)
 
 					.parentContextTabName (
-						resolvedContextLink.tabName ()));
+						resolvedContextLink.tabName ())
+
+				);
 
 			}
 
@@ -645,7 +655,7 @@ class ObjectContextBuilder <
 					stringFormat (
 						"%s {%s}",
 						capitalise (
-							consoleHelper.friendlyNameSingular ()),
+							consoleHelper.shortNameSingular ()),
 						stringFormat (
 							"%sName",
 							consoleHelper.objectTypeCamel ())));
