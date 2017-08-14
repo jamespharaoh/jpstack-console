@@ -1,6 +1,11 @@
 package wbs.console.part;
 
+import static wbs.utils.collection.SetUtils.emptySet;
+import static wbs.utils.etc.Misc.doNothing;
+
 import java.util.Set;
+
+import lombok.NonNull;
 
 import wbs.console.html.HtmlLink;
 import wbs.console.html.ScriptRef;
@@ -12,24 +17,59 @@ import wbs.utils.string.FormatWriter;
 public
 interface PagePart {
 
+	default
 	void prepare (
-			Transaction parentTransaction);
+			@NonNull Transaction parentTransaction) {
 
-	Set <ScriptRef> scriptRefs ();
+		doNothing ();
 
-	Set <HtmlLink> links ();
+	}
 
+	default
+	Set <ScriptRef> scriptRefs () {
+
+		return emptySet ();
+
+	}
+
+	default
+	Set <HtmlLink> links () {
+
+		return emptySet ();
+
+	}
+
+	default
 	void renderHtmlHeadContent (
-			Transaction parentTransaction,
-			FormatWriter formatWriter);
+			@NonNull Transaction parentTransaction,
+			@NonNull FormatWriter formatWriter) {
 
+		doNothing ();
+
+	}
+
+	default
 	void renderHtmlBodyContent (
-			Transaction parentTransaction,
-			FormatWriter formatWriter);
+			@NonNull Transaction parentTransaction,
+			@NonNull FormatWriter formatWriter) {
 
+		doNothing ();
+
+	}
+
+	default
 	void setWithMarkup (
-			boolean markup);
+			boolean markup) {
 
-	void cleanup ();
+		doNothing ();
+
+	}
+
+	default
+	void cleanup () {
+
+		doNothing ();
+
+	}
 
 }

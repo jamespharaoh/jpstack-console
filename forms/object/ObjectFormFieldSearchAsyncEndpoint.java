@@ -118,7 +118,7 @@ class ObjectFormFieldSearchAsyncEndpoint
 
 			ConsoleHelper <?> consoleHelper =
 				objectManager.consoleHelperForNameRequired (
-					objectTypeRegistry.nameForTypeIdRequired (
+					objectTypeRegistry.hyphenForTypeIdRequired (
 						request.objectTypeId ()));
 
 			if (! consoleHelper.consoleHelperProvider ().canSearch ()) {
@@ -141,7 +141,7 @@ class ObjectFormFieldSearchAsyncEndpoint
 
 				ConsoleHelper <?> rootConsoleHelper =
 					objectManager.consoleHelperForNameRequired (
-						objectTypeRegistry.nameForTypeIdRequired (
+						objectTypeRegistry.hyphenForTypeIdRequired (
 							request.rootObjectTypeId ()));
 
 				rootOptional =
