@@ -3,10 +3,12 @@
 	package="wbs.console.tab">
 
 	<layer name="console">
+
 		<component class="ConsoleContextTab"/>
+		<component class="TabContextResponder"/>
 		<component class="TabList"/>
 		<component class="TabbedResponder"/>
-		<component class="TabContextResponder"/>
+
 	</layer>
 
 </plugin>

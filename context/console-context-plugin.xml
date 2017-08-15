@@ -4,6 +4,8 @@
 
 	<layer name="console">
 
+		<bootstrap-component class="ConsoleContextExtensionPointComponentBuilder"/>
+		<bootstrap-component class="ConsoleContextExtensionPointSpec"/>
 		<bootstrap-component class="ConsoleContextLinkComponentBuilder"/>
 		<bootstrap-component class="ConsoleContextLinkSpec"/>
 		<bootstrap-component class="ConsoleContextSectionComponentBuilder"/>
@@ -12,8 +14,6 @@
 		<bootstrap-component class="ConsoleContextStuffSpec"/>
 		<bootstrap-component class="SimpleConsoleContextComponentBuilder"/>
 		<bootstrap-component class="SimpleConsoleContextSpec"/>
-		<bootstrap-component class="ConsoleContextExtensionPointComponentBuilder"/>
-		<bootstrap-component class="ConsoleContextExtensionPointSpec"/>
 
 		<component class="ConsoleContextExtensionPointBuilder"/>
 		<component class="ConsoleContextExtensionPointMetaBuilder"/>

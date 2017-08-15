@@ -20,8 +20,8 @@
 		<bootstrap-component class="object.IdFormFieldSpec"/>
 		<bootstrap-component class="object.IndexFormFieldSpec"/>
 		<bootstrap-component class="object.NameFormFieldSpec"/>
-		<bootstrap-component class="object.ObjectFormFieldSpec"/>
 		<bootstrap-component class="object.ObjectFieldsProviderComponentWrapper"/>
+		<bootstrap-component class="object.ObjectFormFieldSpec"/>
 		<bootstrap-component class="object.ParentFormFieldSpec"/>
 
 		<bootstrap-component class="scriptref.JqueryScriptRefFormFieldSpec"/>
@@ -88,8 +88,8 @@
 		<component class="object.DereferenceFormFieldAccessor"/>
 		<component class="object.DescriptionFormFieldBuilder"/>
 		<component class="object.DynamicFormFieldAccessor"/>
-		<component class="object.IndexFormFieldBuilder"/>
 		<component class="object.IdFormFieldBuilder"/>
+		<component class="object.IndexFormFieldBuilder"/>
 		<component class="object.NameFormFieldAccessor"/>
 		<component class="object.NameFormFieldBuilder"/>
 		<component class="object.NameFormFieldConstraintValidator"/>
