@@ -112,6 +112,9 @@ class ConsoleFormActionPart <FormState, History>
 					formHints,
 					formState);
 
+			actionForm.setDefaults (
+				transaction);
+
 			// prepare history
 
 			if (
