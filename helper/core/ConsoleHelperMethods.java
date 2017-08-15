@@ -87,6 +87,11 @@ interface ConsoleHelperMethods <
 			UserPrivChecker privChecker,
 			RecordType object);
 
+	boolean canManage (
+			Transaction parentTransaction,
+			UserPrivChecker privChecker,
+			RecordType object);
+
 	boolean canCreateIn (
 			Transaction parentTransaction,
 			UserPrivChecker privChecker,

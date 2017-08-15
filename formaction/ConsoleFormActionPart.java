@@ -6,6 +6,7 @@ import static wbs.web.utils.HtmlBlockUtils.htmlParagraphWrite;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -14,6 +15,8 @@ import lombok.experimental.Accessors;
 
 import wbs.console.forms.core.ConsoleForm;
 import wbs.console.forms.core.ConsoleFormType;
+import wbs.console.html.HtmlLink;
+import wbs.console.html.ScriptRef;
 import wbs.console.part.AbstractPagePart;
 import wbs.console.request.ConsoleRequestContext;
 
@@ -132,6 +135,22 @@ class ConsoleFormActionPart <FormState, History>
 			}
 
 		}
+
+	}
+
+	@Override
+	public
+	Set <HtmlLink> links () {
+
+		return actionForm.styles ();
+
+	}
+
+	@Override
+	public
+	Set <ScriptRef> scriptRefs () {
+
+		return actionForm.scriptRefs ();
 
 	}
 

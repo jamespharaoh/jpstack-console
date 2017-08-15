@@ -107,6 +107,7 @@ class EnumFormFieldRenderer <Container, Interface extends Enum <Interface>>
 			@NonNull Container container,
 			@NonNull Map <String, Object> hints,
 			@NonNull Optional <Interface> interfaceValue,
+			@NonNull Optional <Interface> defaultValue,
 			@NonNull FormType formType,
 			@NonNull String formName) {
 

@@ -59,6 +59,9 @@ class ConsoleHelperProviderSpec
 	String viewPriv;
 
 	@DataAttribute
+	String managePriv;
+
+	@DataAttribute
 	String createPriv;
 
 	@DataAttribute (

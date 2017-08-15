@@ -74,6 +74,7 @@ class HtmlFormFieldRenderer <Container>
 			@NonNull Container container,
 			@NonNull Map <String, Object> hints,
 			@NonNull Optional <String> interfaceValue,
+			@NonNull Optional <String> defaultValueOptional,
 			@NonNull FormType formType,
 			@NonNull String formName) {
 

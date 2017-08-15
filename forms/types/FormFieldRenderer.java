@@ -48,6 +48,7 @@ interface FormFieldRenderer <Container, Interface> {
 			Container container,
 			Map <String, Object> hints,
 			Optional <Interface> interfaceValue,
+			Optional <Interface> defaultValue,
 			FormType formType,
 			String formName);
 
@@ -55,7 +56,7 @@ interface FormFieldRenderer <Container, Interface> {
 			Transaction parentTransaction,
 			FormatWriter htmlWriter,
 			Container container,
-			Optional <Interface> interfaceValue,
+			Optional <Interface> defaultValue,
 			String formName);
 
 	void renderHtmlTableCellList (

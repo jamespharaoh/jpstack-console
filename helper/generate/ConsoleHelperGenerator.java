@@ -482,7 +482,7 @@ class ConsoleHelperGenerator {
 		classWriter.addNamedSingletonDependency (
 			ConsoleHelperProvider.class,
 			stringFormat (
-				"%hConsoleHelperProvider",
+				"%sConsoleHelperProvider",
 				model.objectTypeCamel ()));
 
 		classWriter.addNamedSingletonDependency (

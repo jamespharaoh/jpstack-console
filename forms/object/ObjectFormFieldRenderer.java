@@ -3,6 +3,7 @@ package wbs.console.forms.object;
 import static wbs.utils.etc.EnumUtils.enumInSafe;
 import static wbs.utils.etc.LogicUtils.ifNotNullThenElse;
 import static wbs.utils.etc.LogicUtils.referenceEqualWithClass;
+import static wbs.utils.etc.LogicUtils.referenceNotEqualUnsafe;
 import static wbs.utils.etc.Misc.successOrElse;
 import static wbs.utils.etc.NullUtils.isNotNull;
 import static wbs.utils.etc.NumberUtils.integerToDecimalString;
@@ -48,6 +49,7 @@ import wbs.framework.component.annotations.PrototypeComponent;
 import wbs.framework.component.annotations.SingletonDependency;
 import wbs.framework.database.NestedTransaction;
 import wbs.framework.database.Transaction;
+import wbs.framework.entity.record.IdObject;
 import wbs.framework.entity.record.Record;
 import wbs.framework.logging.LogContext;
 import wbs.framework.object.ObjectHelper;
@@ -105,6 +107,9 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 	@Getter @Setter
 	Integer size = FormField.defaultSize;
 
+	@Getter @Setter
+	Boolean excludeSelf = false;
+
 	// public implementation
 
 	@Override
@@ -142,6 +147,7 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 			@NonNull Container container,
 			@NonNull Map <String, Object> hints,
 			@NonNull Optional <Interface> interfaceValue,
+			@NonNull Optional <Interface> defaultValue,
 			@NonNull FormType formType,
 			@NonNull String formName) {
 
@@ -211,6 +217,7 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 				renderFormInputSearch (
 					transaction,
 					formatWriter,
+					container,
 					interfaceValue,
 					formType,
 					formName,
@@ -222,6 +229,7 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 				renderFormInputSelect (
 					transaction,
 					formatWriter,
+					container,
 					interfaceValue,
 					formType,
 					formName,
@@ -584,6 +592,7 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 	void renderFormInputSelect (
 			@NonNull Transaction parentTransaction,
 			@NonNull FormatWriter formatWriter,
+			@NonNull Container container,
 			@NonNull Optional <Interface> interfaceValue,
 			@NonNull FormType formType,
 			@NonNull String formName,
@@ -617,6 +626,17 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 							item,
 							root.get ())
 						: item -> true)
+
+				.filter (
+					item ->
+
+					! excludeSelf
+
+					|| referenceNotEqualUnsafe (
+						item,
+						container)
+
+				)
 
 				.filter (
 					item ->
@@ -785,6 +805,7 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 	void renderFormInputSearch (
 			@NonNull Transaction parentTransaction,
 			@NonNull FormatWriter formatWriter,
+			@NonNull Container container,
 			@NonNull Optional <Interface> interfaceValue,
 			@NonNull FormType formType,
 			@NonNull String formName,
@@ -856,6 +877,23 @@ class ObjectFormFieldRenderer <Container, Interface extends Record <Interface>>
 					" data-search-root-object-id=\"%h\"",
 					integerToDecimalString (
 						root.getId ()));
+
+			}
+
+			if (excludeSelf) {
+
+				ConsoleHelper <?> selfHelper =
+					objectManager.consoleHelperForObjectRequired (
+						genericCastUnchecked (
+							container));
+
+				formatWriter.writeFormat (
+					" data-search-exclude-object-type-id=\"%h\"",
+					integerToDecimalString (
+						selfHelper.objectTypeId ()),
+					" data-search-exclude-object-id=\"%h\"",
+					integerToDecimalString (
+						((IdObject) container).getId ()));
 
 			}
 

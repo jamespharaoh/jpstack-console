@@ -102,7 +102,8 @@ class YesNoFormFieldRenderer <Container>
 			@NonNull FormatWriter htmlWriter,
 			@NonNull Container container,
 			@NonNull Map <String, Object> hints,
-			@NonNull Optional <Boolean> interfaceValue,
+			@NonNull Optional <Boolean> containerValue,
+			@NonNull Optional <Boolean> defaultValue,
 			@NonNull FormType formType,
 			@NonNull String formName) {
 
@@ -123,7 +124,7 @@ class YesNoFormFieldRenderer <Container>
 						formValue (
 							submission,
 							formName))
-					: interfaceValue;
+					: containerValue;
 
 			htmlWriter.writeLineFormatIncreaseIndent (
 				"<select",
@@ -146,11 +147,18 @@ class YesNoFormFieldRenderer <Container>
 				|| optionalIsNotPresent (
 					currentValue)
 
-				|| enumInSafe (
-					formType,
-					FormType.create,
-					FormType.perform,
-					FormType.search)
+				|| (
+
+					enumInSafe (
+						formType,
+						FormType.create,
+						FormType.perform,
+						FormType.search)
+
+					&& optionalIsNotPresent (
+						defaultValue)
+
+				)
 
 			) {
 

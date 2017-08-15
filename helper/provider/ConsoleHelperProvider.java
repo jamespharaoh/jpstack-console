@@ -34,6 +34,11 @@ interface ConsoleHelperProvider <
 			UserPrivChecker privChecker,
 			RecordType object);
 
+	boolean canManage (
+			Transaction parentTransaction,
+			UserPrivChecker privChecker,
+			RecordType object);
+
 	RecordType lookupObject (
 			Transaction parentTransaction,
 			ConsoleContextStuff contextStuff);
