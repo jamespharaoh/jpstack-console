@@ -2,6 +2,7 @@ package wbs.console.forms.core;
 
 import static wbs.utils.collection.IterableUtils.iterableOnlyItemRequired;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +23,8 @@ import wbs.framework.database.Transaction;
 import wbs.framework.entity.record.PermanentRecord;
 
 import wbs.utils.string.FormatWriter;
+
+import wbs.web.utils.HtmlAttributeUtils.ToHtmlAttribute;
 
 public
 interface ConsoleForm <Container> {
@@ -260,7 +263,30 @@ interface ConsoleForm <Container> {
 			Container object,
 			String method,
 			String actionUrl,
-			String submitButtonLabel);
+			String submitButtonLabel,
+			Iterable <? extends ToHtmlAttribute> formAttributes);
+
+	default
+	void outputFormTable (
+			@NonNull Transaction parentTransaction,
+			@NonNull FormatWriter formatWriter,
+			@NonNull Container object,
+			@NonNull String method,
+			@NonNull String actionUrl,
+			@NonNull String submitButtonLabel,
+			@NonNull ToHtmlAttribute ... formAttributes) {
+
+		outputFormTable (
+			parentTransaction,
+			formatWriter,
+			object,
+			method,
+			actionUrl,
+			submitButtonLabel,
+			Arrays.asList (
+				formAttributes));
+
+	}
 
 	default
 	void outputFormTable (
@@ -268,7 +294,8 @@ interface ConsoleForm <Container> {
 			@NonNull FormatWriter formatWriter,
 			@NonNull String method,
 			@NonNull String actionUrl,
-			@NonNull String submitButtonLabel) {
+			@NonNull String submitButtonLabel,
+			@NonNull Iterable <? extends ToHtmlAttribute> formAttributes) {
 
 		outputFormTable (
 			parentTransaction,
@@ -276,7 +303,29 @@ interface ConsoleForm <Container> {
 			value (),
 			method,
 			actionUrl,
-			submitButtonLabel);
+			submitButtonLabel,
+			formAttributes);
+
+	}
+
+	default
+	void outputFormTable (
+			@NonNull Transaction parentTransaction,
+			@NonNull FormatWriter formatWriter,
+			@NonNull String method,
+			@NonNull String actionUrl,
+			@NonNull String submitButtonLabel,
+			@NonNull ToHtmlAttribute ... formAttributes) {
+
+		outputFormTable (
+			parentTransaction,
+			formatWriter,
+			value (),
+			method,
+			actionUrl,
+			submitButtonLabel,
+			Arrays.asList (
+				formAttributes));
 
 	}
 

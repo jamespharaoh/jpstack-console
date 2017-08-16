@@ -1,6 +1,9 @@
 package wbs.console.formaction;
 
 import static wbs.utils.etc.NullUtils.isNotNull;
+import static wbs.utils.etc.OptionalUtils.optionalMapRequired;
+import static wbs.utils.etc.OptionalUtils.presentInstances;
+import static wbs.web.utils.HtmlAttributeUtils.htmlTargetAttribute;
 import static wbs.web.utils.HtmlBlockUtils.htmlHeadingTwoWrite;
 import static wbs.web.utils.HtmlBlockUtils.htmlParagraphWrite;
 
@@ -209,7 +212,11 @@ class ConsoleFormActionPart <FormState, History>
 					"post",
 					requestContext.resolveLocalUrl (
 						localFile),
-					submitLabel);
+					submitLabel,
+					presentInstances (
+						optionalMapRequired (
+							helper.formTarget (),
+							htmlTargetAttribute ())));
 
 			}
 

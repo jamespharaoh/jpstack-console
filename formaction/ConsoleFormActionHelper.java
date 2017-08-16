@@ -3,6 +3,7 @@ package wbs.console.formaction;
 import static wbs.utils.collection.CollectionUtils.emptyList;
 import static wbs.utils.collection.MapUtils.emptyMap;
 import static wbs.utils.etc.Misc.doNothing;
+import static wbs.utils.etc.OptionalUtils.optionalAbsent;
 import static wbs.utils.etc.OptionalUtils.optionalFromJava;
 import static wbs.utils.etc.OptionalUtils.optionalGetRequired;
 import static wbs.utils.etc.OptionalUtils.optionalIsNotPresent;
@@ -49,6 +50,13 @@ interface ConsoleFormActionHelper <FormState, History> {
 			@NonNull Boolean submit) {
 
 		doNothing ();
+
+	}
+
+	default
+	Optional <String> formTarget () {
+
+		return optionalAbsent ();
 
 	}
 

@@ -357,6 +357,9 @@ class TabbedResponder
 			htmlScriptBlockClose (
 				formatWriter);
 
+			requestContext.flushScripts (
+				formatWriter);
+
 		}
 
 	}

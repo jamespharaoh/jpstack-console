@@ -65,6 +65,8 @@ import wbs.framework.logging.LogContext;
 
 import wbs.utils.string.FormatWriter;
 
+import wbs.web.utils.HtmlAttributeUtils.ToHtmlAttribute;
+
 @PrototypeComponent ("consoleForm")
 @Accessors (fluent = true)
 public
@@ -738,7 +740,8 @@ class ConsoleFormImplementation <Container>
 			@NonNull Container object,
 			@NonNull String method,
 			@NonNull String actionUrl,
-			@NonNull String submitButtonLabel) {
+			@NonNull String submitButtonLabel,
+			@NonNull Iterable <? extends ToHtmlAttribute> formAttributes) {
 
 		try (
 
@@ -763,7 +766,8 @@ class ConsoleFormImplementation <Container>
 				formatWriter,
 				method,
 				actionUrl,
-				enctype);
+				enctype,
+				formAttributes);
 
 			formatWriter.writeLineFormat (
 				"<input",
