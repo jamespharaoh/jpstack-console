@@ -89,6 +89,7 @@ class UploadFormFieldRenderer <Container>
 			@NonNull Container container,
 			@NonNull Map <String, Object> hints,
 			@NonNull Optional <FileUpload> interfaceValue,
+			@NonNull Optional <FileUpload> defaultValue,
 			@NonNull FormType formType,
 			@NonNull String formName) {
 

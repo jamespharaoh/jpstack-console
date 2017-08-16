@@ -2,6 +2,7 @@ package wbs.console.helper.provider;
 
 import static wbs.utils.etc.TypeUtils.classForNameRequired;
 import static wbs.utils.etc.TypeUtils.genericCastUnchecked;
+import static wbs.utils.string.StringUtils.camelToHyphen;
 import static wbs.utils.string.StringUtils.capitalise;
 import static wbs.utils.string.StringUtils.joinWithFullStop;
 import static wbs.utils.string.StringUtils.stringFormat;
@@ -72,7 +73,8 @@ class ConsoleHelperProviderFactory <
 			ObjectHelper <RecordType> objectHelper =
 				genericCastUnchecked (
 					objectManager.objectHelperForObjectNameRequired (
-						spec.objectName ()));
+						camelToHyphen (
+							spec.objectName ())));
 
 			List <String> packageNameParts =
 				stringSplitFullStop (
@@ -86,7 +88,7 @@ class ConsoleHelperProviderFactory <
 							0,
 							packageNameParts.size () - 1)),
 					capitalise (
-						objectHelper.objectName ()));
+						objectHelper.objectTypeCamel ()));
 
 			Class <ConsoleHelper <RecordType>> consoleHelperClass =
 				genericCastUnchecked (

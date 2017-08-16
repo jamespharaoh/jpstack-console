@@ -140,6 +140,20 @@ class ConsoleHelperImplementation <
 
 	@Override
 	public
+	boolean canManage (
+			@NonNull Transaction parentTransaction,
+			@NonNull UserPrivChecker privChecker,
+			@NonNull RecordType object) {
+
+		return consoleHelperProvider.canManage (
+			parentTransaction,
+			privChecker,
+			object);
+
+	}
+
+	@Override
+	public
 	boolean canCreateIn (
 			@NonNull Transaction parentTransaction,
 			@NonNull UserPrivChecker privChecker,

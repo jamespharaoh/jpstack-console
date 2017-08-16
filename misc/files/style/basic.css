@@ -412,4 +412,32 @@ table.list tr td.enum--chat-user-type--monitor {
 	background-color: #999999;
 }
 
+/* ---------- mini controls */
+
+.mini-controls {
+	padding: 0 !important;
+	font-size: 0;
+}
+
+.mini-controls > * {
+	font-size: 12px;
+}
+
+.mini-controls button,
+.mini-controls input[type="button"],
+.mini-controls input[type="submit"] {
+	width: 1.8em;
+	height: 100%;
+	border: 0;
+	padding: 0.2ex 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+.mini-controls button:hover,
+.mini-controls input[type="button"]:hover,
+.mini-controls input[type="submit"]:hover {
+	background: #eeeeee;
+}
+
 /* ex: noet ts=4 filetype=css */

@@ -1,15 +1,12 @@
 package wbs.console.forms.object;
 
-import static wbs.utils.collection.CollectionUtils.collectionSize;
 import static wbs.utils.collection.CollectionUtils.listSliceFromStart;
 import static wbs.utils.collection.IterableUtils.iterableFilterToList;
 import static wbs.utils.collection.IterableUtils.iterableMapToList;
-import static wbs.utils.etc.DebugUtils.debugFormat;
 import static wbs.utils.etc.LogicUtils.ifThenElse;
 import static wbs.utils.etc.LogicUtils.predicatesCombineAll;
 import static wbs.utils.etc.LogicUtils.predicatesCombineAny;
 import static wbs.utils.etc.NullUtils.allAreNotNull;
-import static wbs.utils.etc.NumberUtils.integerToDecimalString;
 import static wbs.utils.etc.OptionalUtils.optionalAbsent;
 import static wbs.utils.etc.OptionalUtils.optionalGetRequired;
 import static wbs.utils.etc.OptionalUtils.optionalIf;
@@ -107,10 +104,6 @@ class ObjectFormFieldSearchAsyncEndpoint
 
 		) {
 
-			debugFormat (
-				"REQUEST: %s",
-				request.toString ());
-
 			UserPrivChecker privChecker =
 				privCheckerBuilderProvider.provide (
 					transaction)
@@ -125,14 +118,14 @@ class ObjectFormFieldSearchAsyncEndpoint
 
 			ConsoleHelper <?> consoleHelper =
 				objectManager.consoleHelperForNameRequired (
-					objectTypeRegistry.nameForTypeIdRequired (
+					objectTypeRegistry.hyphenForTypeIdRequired (
 						request.objectTypeId ()));
 
 			if (! consoleHelper.consoleHelperProvider ().canSearch ()) {
 
 				transaction.warningFormat (
 					"Ignoring attempt to search type: %s",
-					consoleHelper.objectName ());
+					consoleHelper.objectTypeHyphen ());
 
 				return optionalAbsent ();
 
@@ -148,7 +141,7 @@ class ObjectFormFieldSearchAsyncEndpoint
 
 				ConsoleHelper <?> rootConsoleHelper =
 					objectManager.consoleHelperForNameRequired (
-						objectTypeRegistry.nameForTypeIdRequired (
+						objectTypeRegistry.hyphenForTypeIdRequired (
 							request.rootObjectTypeId ()));
 
 				rootOptional =
@@ -242,12 +235,6 @@ class ObjectFormFieldSearchAsyncEndpoint
 							filterPredicates),
 						predicatesCombineAny (
 							searchPredicates)));
-
-			debugFormat (
-				"Found %s objects",
-				integerToDecimalString (
-					collectionSize (
-						objects)));
 
 			List <ObjectFormFieldSearchResponseItem> responseItems =
 				iterableMapToList (

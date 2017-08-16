@@ -4,9 +4,9 @@
 
 	<layer name="console">
 
+		<bootstrap-component class="ContextActionComponentBuilder"/>
 		<bootstrap-component class="ContextActionPageComponentBuilder"/>
 		<bootstrap-component class="ContextActionPageSpec"/>
-		<bootstrap-component class="ContextActionComponentBuilder"/>
 		<bootstrap-component class="ContextActionSpec"/>
 		<bootstrap-component class="ContextFileComponentBuilder"/>
 		<bootstrap-component class="ContextFileSpec"/>
@@ -15,33 +15,33 @@
 		<bootstrap-component class="ContextRequestHandlerSpec"/>
 		<bootstrap-component class="ContextResponderPageComponentBuilder"/>
 		<bootstrap-component class="ContextResponderPageSpec"/>
-		<bootstrap-component class="ContextTabResponderPageComponentBuilder"/>
-		<bootstrap-component class="ContextTabResponderPageSpec"/>
-		<bootstrap-component class="ContextTabResponderComponentBuilder"/>
-		<bootstrap-component class="ContextTabResponderSpec"/>
 		<bootstrap-component class="ContextTabActionPageComponentBuilder"/>
 		<bootstrap-component class="ContextTabActionPageSpec"/>
 		<bootstrap-component class="ContextTabPageComponentBuilder"/>
 		<bootstrap-component class="ContextTabPageSpec"/>
+		<bootstrap-component class="ContextTabResponderComponentBuilder"/>
+		<bootstrap-component class="ContextTabResponderPageComponentBuilder"/>
+		<bootstrap-component class="ContextTabResponderPageSpec"/>
+		<bootstrap-component class="ContextTabResponderSpec"/>
 		<bootstrap-component class="SimpleActionPageSpec"/>
 		<bootstrap-component class="SimpleFileComponentBuilder"/>
 		<bootstrap-component class="SimpleFileSpec"/>
 		<bootstrap-component class="SimplePathSpec"/>
 		<bootstrap-component class="SimpleResponderComponentBuilder"/>
-		<bootstrap-component class="SimpleResponderSpec"/>
 		<bootstrap-component class="SimpleResponderFileComponentBuilder"/>
 		<bootstrap-component class="SimpleResponderFileSpec"/>
+		<bootstrap-component class="SimpleResponderSpec"/>
 
-		<component class="ContextActionPageBuilder"/>
 		<component class="ContextActionBuilder"/>
+		<component class="ContextActionPageBuilder"/>
 		<component class="ContextFileBuilder"/>
 		<component class="ContextGetActionBuilder"/>
 		<component class="ContextRequestHandlerBuilder"/>
 		<component class="ContextResponderPageBuilder"/>
-		<component class="ContextTabResponderBuilder"/>
-		<component class="ContextTabResponderPageBuilder"/>
 		<component class="ContextTabActionPageBuilder"/>
 		<component class="ContextTabPageBuilder"/>
+		<component class="ContextTabResponderBuilder"/>
+		<component class="ContextTabResponderPageBuilder"/>
 		<component class="SimpleActionPageBuilder"/>
 		<component class="SimpleFileBuilder"/>
 		<component class="SimplePathBuilder"/>

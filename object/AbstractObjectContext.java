@@ -62,13 +62,13 @@ class AbstractObjectContext
 	StringLookup titleLookup ();
 
 	public abstract
-	ObjectLookup<?> objectLookup ();
+	ObjectLookup <?> objectLookup ();
 
 	public abstract
 	String postProcessorName ();
 
 	public abstract
-	Map<String,Object> stuff ();
+	Map <String, Object> stuff ();
 
 	// implementation
 
@@ -102,7 +102,7 @@ class AbstractObjectContext
 	@Override
 	public
 	String titleForStuff (
-			ConsoleContextStuff stuff) {
+			@NonNull ConsoleContextStuff stuff) {
 
 		if (title () != null) {
 

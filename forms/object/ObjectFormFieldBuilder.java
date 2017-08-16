@@ -1,17 +1,19 @@
 package wbs.console.forms.object;
 
+import static wbs.utils.etc.FunctionalUtils.functionChain;
 import static wbs.utils.etc.NullUtils.ifNull;
 import static wbs.utils.etc.NullUtils.isNotNull;
 import static wbs.utils.etc.OptionalUtils.optionalAbsent;
+import static wbs.utils.etc.OptionalUtils.optionalFromNullable;
 import static wbs.utils.etc.OptionalUtils.optionalGetRequired;
-import static wbs.utils.etc.OptionalUtils.optionalIsNotPresent;
 import static wbs.utils.etc.OptionalUtils.optionalIsPresent;
+import static wbs.utils.etc.OptionalUtils.optionalMapRequired;
 import static wbs.utils.etc.OptionalUtils.optionalOf;
 import static wbs.utils.etc.OptionalUtils.optionalOrNull;
 import static wbs.utils.etc.OptionalUtils.optionalValueEqualSafe;
+import static wbs.utils.string.StringUtils.camelToHyphen;
 import static wbs.utils.string.StringUtils.camelToSpaces;
 import static wbs.utils.string.StringUtils.capitalise;
-import static wbs.utils.string.StringUtils.stringFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,8 +165,8 @@ class ObjectFormFieldBuilder
 
 			String label =
 				ifNull (
-					spec.label (),
-					capitalise (
+					() -> spec.label (),
+					() -> capitalise (
 						camelToSpaces (
 							name.endsWith ("Id")
 								? name.substring (
@@ -187,36 +189,13 @@ class ObjectFormFieldBuilder
 					spec.dynamic (),
 					false);
 
-			Optional <ConsoleHelper <?>> consoleHelperOptional;
-
-			if (
-				isNotNull (
-					spec.objectTypeName ())
-			) {
-
-				consoleHelperOptional =
-					optionalOf (
-						objectManager.consoleHelperForNameRequired (
-							spec.objectTypeName ()));
-
-				if (
-					optionalIsNotPresent (
-						consoleHelperOptional)
-				) {
-
-					throw new RuntimeException (
-						stringFormat (
-							"Console helper does not exist: %s",
-							spec.objectTypeName ()));
-
-				}
-
-			} else {
-
-				consoleHelperOptional =
-					optionalAbsent ();
-
-			}
+			Optional <ConsoleHelper <?>> consoleHelperOptional =
+				optionalMapRequired (
+					optionalFromNullable (
+						spec.objectTypeName ()),
+					functionChain (
+						camelToHyphen (),
+						objectManager.consoleHelperForNameRequired ()));
 
 			String rootFieldName =
 				spec.rootFieldName ();

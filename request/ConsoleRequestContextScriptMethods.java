@@ -1,10 +1,10 @@
 package wbs.console.request;
 
 import static wbs.utils.collection.CollectionUtils.collectionIsNotEmpty;
+import static wbs.utils.etc.DebugUtils.debugFormat;
 import static wbs.utils.etc.OptionalUtils.optionalCast;
 import static wbs.utils.etc.OptionalUtils.optionalFromNullable;
 import static wbs.utils.etc.OptionalUtils.optionalOrElseRequired;
-import static wbs.utils.etc.TypeUtils.genericCastUnchecked;
 import static wbs.utils.string.StringUtils.stringFormatArray;
 import static wbs.web.utils.HtmlScriptUtils.htmlScriptBlockClose;
 import static wbs.web.utils.HtmlScriptUtils.htmlScriptBlockOpen;
@@ -25,10 +25,10 @@ interface ConsoleRequestContextScriptMethods
 	default
 	List <String> scripts () {
 
-		return genericCastUnchecked (
-			requestContext ().requestOrElseSet (
-				"scripts",
-				() -> new ArrayList <String> ()));
+		State state =
+			consoleRequestContextScriptMethodsState ();
+
+		return state.scripts;
 
 	}
 
@@ -55,6 +55,8 @@ interface ConsoleRequestContextScriptMethods
 	default
 	void flushScripts (
 			@NonNull FormatWriter formatWriter) {
+
+debugFormat ("FLUSH SCRIPTS");
 
 		State state =
 			consoleRequestContextScriptMethodsState ();

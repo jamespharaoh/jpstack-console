@@ -111,14 +111,30 @@ function update () {
 
 		hiddenField.value = "none";
 
+		objectFormField._dropdown
+			.css ("display", "none");
+
 		return;
 
 	}
 
-	var fieldId = activeField.attr ("id");
-	var objectTypeId = activeField.data ("search-object-type-id");
-	var rootObjectTypeId = activeField.data ("search-root-object-type-id");
-	var rootObjectId = activeField.data ("search-root-object-id");
+	var fieldId =
+		activeField.attr ("id");
+
+	var objectTypeId =
+		activeField.data ("search-object-type-id");
+
+	var rootObjectTypeId =
+		activeField.data ("search-root-object-type-id");
+
+	var rootObjectId =
+		activeField.data ("search-root-object-id");
+
+	var excludeObjectTypeId =
+		activeField.data ("search-exclude-object-type-id");
+
+	var excludeObjectId =
+		activeField.data ("search-exclude-object-id");
 
 	console.log ("SEARCH: " + searchText);
 
@@ -127,6 +143,8 @@ function update () {
 		objectTypeId: objectTypeId,
 		rootObjectTypeId: rootObjectTypeId,
 		rootObjectId: rootObjectId,
+		excludeObjectTypeId: excludeObjectTypeId,
+		excludeObjectId: excludeObjectId,
 		searchText: searchText,
 	};
 
@@ -193,6 +211,13 @@ function callback (activeField, data) {
 		dropdown.append (itemDiv);
 
 	});
+
+	if (! data.items.length) {
+
+		dropdown.append (
+			$("<div>").text ("No results found"));
+
+	}
 
 };
 

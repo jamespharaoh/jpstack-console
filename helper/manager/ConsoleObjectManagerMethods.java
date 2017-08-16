@@ -9,6 +9,7 @@ import static wbs.utils.string.FormatWriterUtils.formatWriterConsumerToString;
 import static wbs.utils.string.StringUtils.stringFormat;
 
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 import com.google.common.base.Optional;
 
@@ -75,6 +76,11 @@ interface ConsoleObjectManagerMethods {
 					"No console helper for object type %s",
 					objectTypeName)));
 
+	}
+
+	default
+	Function <String, ConsoleHelper <?>> consoleHelperForNameRequired () {
+		return this::consoleHelperForNameRequired;
 	}
 
 	void writeTdForObject (
@@ -251,6 +257,87 @@ interface ConsoleObjectManagerMethods {
 
 	}
 
+	default
+	void writeTdForObject (
+			@NonNull Transaction parentTransaction,
+			@NonNull FormatWriter formatWriter,
+			@NonNull UserPrivChecker privChecker,
+			@NonNull Record <?> object) {
+
+		writeTdForObject (
+			parentTransaction,
+			formatWriter,
+			privChecker,
+			object,
+			optionalAbsent (),
+			false,
+			false,
+			1l);
+
+	}
+
+	default
+	void writeTdForObject (
+			@NonNull Transaction parentTransaction,
+			@NonNull FormatWriter formatWriter,
+			@NonNull UserPrivChecker privChecker,
+			@NonNull Record <?> object,
+			@NonNull Record <?> assumedRoot) {
+
+		writeTdForObject (
+			parentTransaction,
+			formatWriter,
+			privChecker,
+			object,
+			optionalOf (
+				assumedRoot),
+			false,
+			false,
+			1l);
+
+	}
+
+	default
+	void writeTdForObject (
+			@NonNull Transaction parentTransaction,
+			@NonNull FormatWriter formatWriter,
+			@NonNull UserPrivChecker privChecker,
+			@NonNull Record <?> object,
+			@NonNull Long columnSpan) {
+
+		writeTdForObject (
+			parentTransaction,
+			formatWriter,
+			privChecker,
+			object,
+			optionalAbsent (),
+			false,
+			false,
+			columnSpan);
+
+	}
+
+	default
+	void writeTdForObject (
+			@NonNull Transaction parentTransaction,
+			@NonNull FormatWriter formatWriter,
+			@NonNull UserPrivChecker privChecker,
+			@NonNull Record <?> object,
+			@NonNull Record <?> assumedRoot,
+			@NonNull Long columnSpan) {
+
+		writeTdForObject (
+			parentTransaction,
+			formatWriter,
+			privChecker,
+			object,
+			optionalOf (
+				assumedRoot),
+			false,
+			false,
+			columnSpan);
+
+	}
 
 	void writeHtmlForObject (
 			Transaction parentTransaction,

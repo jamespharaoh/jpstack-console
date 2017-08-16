@@ -47,6 +47,10 @@ class ObjectFormFieldSpec
 		name = "root-field")
 	String rootFieldName;
 
+	@DataAttribute (
+		name = "exclude-self")
+	Boolean excludeSelf;
+
 	@DataAttribute
 	Boolean search;
 

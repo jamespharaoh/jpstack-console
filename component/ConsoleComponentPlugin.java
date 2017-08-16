@@ -19,9 +19,9 @@ import static wbs.utils.etc.OptionalUtils.optionalOf;
 import static wbs.utils.etc.OptionalUtils.optionalOfFormat;
 import static wbs.utils.etc.TypeUtils.classForName;
 import static wbs.utils.etc.TypeUtils.classForNameRequired;
+import static wbs.utils.etc.TypeUtils.classNameFormat;
 import static wbs.utils.etc.TypeUtils.genericCastUnchecked;
 import static wbs.utils.etc.TypeUtils.isNotSubclassOf;
-import static wbs.utils.string.StringUtils.capitalise;
 import static wbs.utils.string.StringUtils.hyphenToCamel;
 import static wbs.utils.string.StringUtils.hyphenToCamelCapitalise;
 import static wbs.utils.string.StringUtils.stringFormat;
@@ -68,6 +68,8 @@ import wbs.framework.component.tools.ComponentPlugin;
 import wbs.framework.logging.LogContext;
 import wbs.framework.logging.OwnedTaskLogger;
 import wbs.framework.logging.TaskLogger;
+
+import wbs.utils.etc.ClassName;
 
 @SingletonComponent ("consoleComponentPlugin")
 public
@@ -158,15 +160,16 @@ class ConsoleComponentPlugin
 			String consoleHelperComponentName =
 				stringFormat (
 					"%sConsoleHelper",
-					model.name ());
+					hyphenToCamel (
+						model.name ()));
 
 			// console helper
 
-			String consoleHelperClassName =
-				stringFormat (
+			ClassName consoleHelperClassName =
+				classNameFormat (
 					"%s.console.%sConsoleHelper",
 					model.plugin ().packageName (),
-					capitalise (
+					hyphenToCamelCapitalise (
 						model.name ()));
 
 			Optional <Class <?>> consoleHelperClassOptional =
@@ -188,11 +191,11 @@ class ConsoleComponentPlugin
 
 			// console helper implemenation
 
-			String consoleHelperImplementationClassName =
-				stringFormat (
+			ClassName consoleHelperImplementationClassName =
+				classNameFormat (
 					"%s.console.%sConsoleHelperImplementation",
 					model.plugin ().packageName (),
-					capitalise (
+					hyphenToCamelCapitalise (
 						model.name ()));
 
 			Optional <Class <?>> consoleHelperImplementationClassOptional =
@@ -251,22 +254,23 @@ class ConsoleComponentPlugin
 
 		) {
 
-			String enumClassName =
-				stringFormat (
+			// load enum class
+
+			ClassName enumClassName =
+				classNameFormat (
 					"%s.model.%s",
 					enumType.plugin ().packageName (),
-					capitalise (
+					hyphenToCamelCapitalise (
 						enumType.name ()));
 
-			Class <?> enumClass;
+			Optional <Class <?>> enumClassNameOptional =
+				classForName (
+					enumClassName);
 
-			try {
-
-				enumClass =
-					Class.forName (
-						enumClassName);
-
-			} catch (ClassNotFoundException exception) {
+			if (
+				optionalIsNotPresent (
+					enumClassNameOptional)
+			) {
 
 				taskLogger.errorFormat (
 					"No such class %s",
@@ -276,10 +280,17 @@ class ConsoleComponentPlugin
 
 			}
 
+			Class <?> enumClass =
+				optionalGetRequired (
+					enumClassNameOptional);
+
+			// register component
+
 			String enumConsoleHelperComponentName =
 				stringFormat (
 					"%sConsoleHelper",
-					enumType.name ());
+					hyphenToCamel (
+						enumType.name ()));
 
 			componentRegistry.registerDefinition (
 				taskLogger,
@@ -324,11 +335,11 @@ class ConsoleComponentPlugin
 
 		) {
 
-			String customClassName =
-				stringFormat (
+			ClassName customClassName =
+				classNameFormat (
 					"%s.model.%s",
 					customType.plugin ().packageName (),
-					capitalise (
+					hyphenToCamelCapitalise (
 						customType.name ()));
 
 			Optional <Class <?>> customClassOptional =

@@ -4,6 +4,7 @@ import static wbs.utils.collection.CollectionUtils.emptyList;
 import static wbs.utils.etc.Misc.maybeList;
 import static wbs.utils.etc.NullUtils.ifNull;
 import static wbs.utils.etc.TypeUtils.genericCastUnchecked;
+import static wbs.utils.string.StringUtils.camelToHyphen;
 import static wbs.utils.string.StringUtils.camelToSpaces;
 import static wbs.utils.string.StringUtils.capitalise;
 import static wbs.utils.string.StringUtils.joinWithoutSeparator;
@@ -326,7 +327,9 @@ class ObjectContextBuilder <
 
 				.title (
 					capitalise (
-						consoleHelper.shortNamePlural ())));
+						consoleHelper.shortNamePlural ()))
+
+			);
 
 			consoleModule.addContext (
 				objectContextProvider.provide (
@@ -357,10 +360,12 @@ class ObjectContextBuilder <
 					consoleHelper)
 
 				.postProcessorName (
-					consoleHelper.objectName ())
+					consoleHelper.objectTypeCamel ())
 
 				.cryptor (
-					cryptor));
+					cryptor)
+
+			);
 
 			consoleModule.addContext (
 				objectContextProvider.provide (
@@ -391,13 +396,15 @@ class ObjectContextBuilder <
 					consoleHelper)
 
 				.postProcessorName (
-					consoleHelper.objectName ())
+					consoleHelper.objectTypeCamel ())
 
 				.cryptor (
 					cryptor)
 
 				.parentContextTabName (
-					"link:" + name));
+					"link:" + name)
+
+			);
 
 		}
 
@@ -445,7 +452,7 @@ class ObjectContextBuilder <
 
 					.defaultLabel (
 						capitalise (
-							consoleHelper.friendlyName ())),
+							consoleHelper.friendlyNameSingular ())),
 
 				emptyList ());
 
@@ -515,7 +522,9 @@ class ObjectContextBuilder <
 						parentContextName)
 
 					.parentContextTabName (
-						resolvedContextLink.tabName ()));
+						resolvedContextLink.tabName ())
+
+				);
 
 				consoleModule.addContext (
 					objectContextProvider.provide (
@@ -543,7 +552,7 @@ class ObjectContextBuilder <
 						consoleHelper)
 
 					.postProcessorName (
-						consoleHelper.objectName ())
+						consoleHelper.objectTypeCamel ())
 
 					.cryptor (
 						cryptor)
@@ -552,7 +561,9 @@ class ObjectContextBuilder <
 						parentContextName)
 
 					.parentContextTabName (
-						resolvedContextLink.tabName ()));
+						resolvedContextLink.tabName ())
+
+				);
 
 			}
 
@@ -615,7 +626,8 @@ class ObjectContextBuilder <
 			consoleHelper =
 				genericCastUnchecked (
 					objectManager.consoleHelperForNameRequired (
-						spec.objectName ()));
+						camelToHyphen (
+							spec.objectName ())));
 
 			name =
 				spec.name ();
@@ -643,10 +655,10 @@ class ObjectContextBuilder <
 					stringFormat (
 						"%s {%s}",
 						capitalise (
-							consoleHelper.friendlyName ()),
+							consoleHelper.shortNameSingular ()),
 						stringFormat (
 							"%sName",
-							consoleHelper.objectName ())));
+							consoleHelper.objectTypeCamel ())));
 
 			defaultFileName =
 				Optional.fromNullable (

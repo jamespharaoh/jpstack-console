@@ -145,16 +145,16 @@ class ExtendContextBuilder <
 					baseName)
 
 				.newBeanNamePrefix (
-					consoleHelper.objectName ())
+					consoleHelper.objectTypeCamel ())
 
 				.existingBeanNamePrefix (
-					consoleHelper.objectName ())
+					consoleHelper.objectTypeCamel ())
 
 				.tabLocation (
 					extensionPointName)
 
 				.friendlyName (
-					consoleHelper.friendlyName ());
+					consoleHelper.friendlyNameSingular ());
 
 			builder.descend (
 				taskLogger,

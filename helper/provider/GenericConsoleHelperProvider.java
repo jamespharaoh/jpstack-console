@@ -105,7 +105,7 @@ class GenericConsoleHelperProvider <
 	Class <RecordType> objectClass;
 
 	@Getter @Setter
-	String objectName;
+	String objectTypeCamel;
 
 	@Getter @Setter
 	String idKey;
@@ -124,6 +124,12 @@ class GenericConsoleHelperProvider <
 
 	@Getter @Setter
 	String viewPrivCode;
+
+	@Getter @Setter
+	String managePrivDelegate;
+
+	@Getter @Setter
+	String managePrivCode;
 
 	@Getter @Setter
 	String createPrivDelegate;
@@ -166,8 +172,8 @@ class GenericConsoleHelperProvider <
 			objectClass (
 				objectHelper.objectClass ());
 
-			objectName (
-				objectHelper.objectName ());
+			objectTypeCamel (
+				objectHelper.objectTypeCamel ());
 
 			idKey (
 				spec.idKey ());
@@ -176,12 +182,14 @@ class GenericConsoleHelperProvider <
 				ifNull (
 					spec.defaultListContextName (),
 					naivePluralise (
-						objectName ())));
+						objectTypeCamel ())));
 
 			defaultObjectContextName (
 				ifNull (
 					spec.defaultObjectContextName (),
-					objectHelper.objectName ()));
+					objectHelper.objectTypeCamel ()));
+
+			// initialise view priv
 
 			if (
 				isNotNull (
@@ -215,6 +223,40 @@ class GenericConsoleHelperProvider <
 
 			}
 
+			// initialise manage priv
+
+			if (
+				isNotNull (
+					spec.managePriv ())
+			) {
+
+				List <String> managePrivParts =
+					stringSplitColon (
+						spec.managePriv ());
+
+				if (managePrivParts.size () == 1) {
+
+					managePrivCode (
+						managePrivParts.get (0));
+
+				} else if (managePrivParts.size () == 2) {
+
+					managePrivDelegate (
+						nullIfEmptyString (
+							managePrivParts.get (0)));
+
+					managePrivCode (
+						nullIfEmptyString (
+							managePrivParts.get (1)));
+
+				} else {
+
+					throw new RuntimeException ();
+
+				}
+
+			}
+
 			if (spec.cryptorBeanName () != null) {
 
 				cryptor (
@@ -230,7 +272,7 @@ class GenericConsoleHelperProvider <
 			String viewPrivKey =
 				stringFormat (
 					"%s.view",
-					objectName ());
+					objectTypeCamel ());
 
 			for (
 				PrivKeySpec privKeySpec
@@ -331,7 +373,7 @@ class GenericConsoleHelperProvider <
 
 			transaction.debugFormat (
 				"Running post processor for %s",
-				objectName ());
+				objectHelper.objectTypeHyphen ());
 
 			// lookup object
 
@@ -866,6 +908,135 @@ class GenericConsoleHelperProvider <
 			return privChecker.canRecursive (
 				transaction,
 				object);
+
+		}
+
+	}
+
+	@Override
+	public
+	boolean canManage (
+			@NonNull Transaction parentTransaction,
+			@NonNull UserPrivChecker privChecker,
+			@NonNull RecordType object) {
+
+		try (
+
+			NestedTransaction transaction =
+				parentTransaction.nestTransaction (
+					logContext,
+					"canManage");
+
+		) {
+
+			// manage delegate
+
+			if (
+				isNotNull (
+					managePrivDelegate)
+			) {
+
+				// lookup delegate
+
+				Optional <Record <?>> delegateOptional =
+					genericCastUnchecked (
+						optionalGetOrAbsent (
+							resultValue (
+								objectManager.dereferenceOrError (
+									transaction,
+									object,
+									managePrivDelegate))));
+
+				if (
+					optionalIsNotPresent (
+						delegateOptional)
+				) {
+
+					transaction.debugFormat (
+						"Object is not manageable because manage delegate %s ",
+						managePrivDelegate,
+						"is not present");
+
+					return false;
+
+				}
+
+				Record <?> delegate =
+					optionalGetRequired (
+						delegateOptional);
+
+				// check priv
+
+				if (
+					isNotNull (
+						managePrivCode)
+				) {
+
+					transaction.debugFormat (
+						"Delegating to %s priv %s",
+						managePrivDelegate,
+						managePrivCode);
+
+					return privChecker.canRecursive (
+						transaction,
+						delegate,
+						managePrivCode);
+
+				} else {
+
+					ConsoleHelper <?> delegateHelper =
+						consoleObjectManager.consoleHelperForObjectRequired (
+							genericCastUnchecked (
+								delegate));
+
+					transaction.debugFormat (
+						"Delegating to %s",
+						managePrivDelegate);
+
+					return delegateHelper.canManage (
+						transaction,
+						privChecker,
+						genericCastUnchecked (
+							delegate));
+
+				}
+
+			}
+
+			// check manage priv
+
+			if (
+				isNotNull (
+					managePrivCode)
+			) {
+
+				transaction.debugFormat (
+					"Checking manage priv: %s",
+					managePrivCode);
+
+				return privChecker.canRecursive (
+					transaction,
+					object,
+					managePrivCode);
+
+			}
+
+			// default to parent
+
+			Record <?> parent =
+				objectManager.getParentRequired (
+					transaction,
+					object);
+
+			ConsoleHelper <?> parentHelper =
+				consoleObjectManager.consoleHelperForObjectRequired (
+					object);
+
+			return parentHelper.canManage (
+				transaction,
+				privChecker,
+				genericCastUnchecked (
+					parent));
 
 		}
 

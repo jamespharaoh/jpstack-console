@@ -11,6 +11,8 @@ import wbs.framework.data.annotations.DataAncestor;
 import wbs.framework.data.annotations.DataAttribute;
 import wbs.framework.data.annotations.DataClass;
 
+import wbs.utils.string.StringFormat;
+
 @Accessors (fluent = true)
 @Data
 @DataClass ("context-tab-form-action-page")
@@ -27,11 +29,13 @@ class ContextTabFormActionPageSpec
 	// attributes
 
 	@DataAttribute (
-		required = true)
+		required = true,
+		format = StringFormat.hyphenated)
 	String name;
 
 	@DataAttribute (
-		name = "action-form")
+		name = "action-form",
+		format = StringFormat.hyphenated)
 	String actionFormTypeName;
 
 	@DataAttribute
@@ -41,7 +45,8 @@ class ContextTabFormActionPageSpec
 	String submitLabel;
 
 	@DataAttribute (
-		name = "helper")
+		name = "helper",
+		format = StringFormat.hyphenated)
 	String helperName;
 
 	@DataAttribute (
@@ -49,7 +54,8 @@ class ContextTabFormActionPageSpec
 	String historyHeading;
 
 	@DataAttribute (
-		name = "history-form")
+		name = "history-form",
+		format = StringFormat.hyphenated)
 	String historyFormTypeName;
 
 }

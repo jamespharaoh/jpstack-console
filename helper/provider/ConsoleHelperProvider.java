@@ -11,7 +11,7 @@ interface ConsoleHelperProvider <
 	RecordType extends Record <RecordType>
 > {
 
-	String objectName ();
+	String objectTypeCamel ();
 
 	Class <RecordType> objectClass ();
 
@@ -30,6 +30,11 @@ interface ConsoleHelperProvider <
 			RecordType object);
 
 	boolean canView (
+			Transaction parentTransaction,
+			UserPrivChecker privChecker,
+			RecordType object);
+
+	boolean canManage (
 			Transaction parentTransaction,
 			UserPrivChecker privChecker,
 			RecordType object);

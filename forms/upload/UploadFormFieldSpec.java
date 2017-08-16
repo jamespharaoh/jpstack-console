@@ -18,10 +18,10 @@ class UploadFormFieldSpec
 	implements ConsoleSpec {
 
 	@DataAttribute
-	String label;
+	String name;
 
 	@DataAttribute
-	String name;
+	String label;
 
 	@DataAttribute
 	Boolean nullable;

@@ -21,7 +21,8 @@ public
 class YesNoFormFieldSpec
 	implements ConsoleSpec {
 
-	@DataAttribute (required = true)
+	@DataAttribute (
+		required = true)
 	String name;
 
 	@Getter @Setter
