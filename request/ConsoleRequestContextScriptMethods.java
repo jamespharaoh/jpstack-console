@@ -1,7 +1,6 @@
 package wbs.console.request;
 
 import static wbs.utils.collection.CollectionUtils.collectionIsNotEmpty;
-import static wbs.utils.etc.DebugUtils.debugFormat;
 import static wbs.utils.etc.OptionalUtils.optionalCast;
 import static wbs.utils.etc.OptionalUtils.optionalFromNullable;
 import static wbs.utils.etc.OptionalUtils.optionalOrElseRequired;
@@ -55,8 +54,6 @@ interface ConsoleRequestContextScriptMethods
 	default
 	void flushScripts (
 			@NonNull FormatWriter formatWriter) {
-
-debugFormat ("FLUSH SCRIPTS");
 
 		State state =
 			consoleRequestContextScriptMethodsState ();

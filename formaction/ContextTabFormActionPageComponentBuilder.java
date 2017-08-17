@@ -5,6 +5,8 @@ import static wbs.utils.etc.NullUtils.ifNull;
 import static wbs.utils.etc.OptionalUtils.optionalFromNullable;
 import static wbs.utils.etc.OptionalUtils.optionalIf;
 import static wbs.utils.etc.OptionalUtils.optionalOf;
+import static wbs.utils.string.StringUtils.camelToHyphen;
+import static wbs.utils.string.StringUtils.camelToSpaces;
 import static wbs.utils.string.StringUtils.capitalise;
 import static wbs.utils.string.StringUtils.hyphenToCamel;
 import static wbs.utils.string.StringUtils.hyphenToCamelCapitalise;
@@ -81,7 +83,7 @@ class ContextTabFormActionPageComponentBuilder
 				.nameFormat (
 					"%s%sFormPartFactory",
 					context.newComponentNamePrefix (),
-					hyphenToCamelCapitalise (
+					capitalise (
 						spec.name ()))
 
 				.componentClass (
@@ -104,7 +106,7 @@ class ContextTabFormActionPageComponentBuilder
 					capitalise (
 						hyphenToSpaces (
 							context.consoleModule ().name ())),
-					hyphenToSpaces (
+					camelToSpaces (
 						spec.name ()))
 
 				.addReferencePropertyFormat (
@@ -115,8 +117,7 @@ class ContextTabFormActionPageComponentBuilder
 					capitalise (
 						ifNull (
 							spec.helperName (),
-							hyphenToCamel (
-								spec.name ()))))
+							spec.name ())))
 
 				.addReferencePropertyFormat (
 					"actionFormType",
@@ -129,7 +130,8 @@ class ContextTabFormActionPageComponentBuilder
 							spec.actionFormTypeName (),
 							stringFormat (
 								"%s-action",
-								spec.name ()))))
+								camelToHyphen (
+									spec.name ())))))
 
 				.addValueProperty (
 					"helpText",
@@ -141,15 +143,14 @@ class ContextTabFormActionPageComponentBuilder
 					optionalOf (
 						ifNull (
 							spec.submitLabel (),
-							hyphenToSpaces (
+							camelToSpaces (
 								spec.name ()))))
 
 				.addValuePropertyFormat (
 					"localFile",
 					"/%s.%s",
 					context.pathPrefix (),
-					hyphenToCamel (
-						spec.name ()))
+					spec.name ())
 
 				.addValueProperty (
 					"historyHeading",
@@ -171,8 +172,8 @@ class ContextTabFormActionPageComponentBuilder
 								ifNull (
 									spec.historyFormTypeName (),
 									stringFormat (
-										"%sHistory",
-										hyphenToCamel (
+										"%s-history",
+										camelToHyphen (
 											spec.name ())))))))
 
 			);
@@ -184,7 +185,7 @@ class ContextTabFormActionPageComponentBuilder
 				.nameFormat (
 					"%s%sFormResponder",
 					context.newComponentNamePrefix (),
-					hyphenToCamelCapitalise (
+					capitalise (
 						spec.name ()))
 
 				.componentClass (
@@ -200,15 +201,14 @@ class ContextTabFormActionPageComponentBuilder
 					"tab",
 					"%s.%s",
 					context.pathPrefix (),
-					hyphenToCamel (
-						spec.name ()))
+					spec.name ())
 
 				.addValuePropertyFormat (
 					"title",
 					"%s %s",
 					capitalise (
 						context.friendlyName ()),
-					hyphenToSpaces (
+					camelToSpaces (
 						spec.name ()))
 
 				.addReferencePropertyFormat (
@@ -216,7 +216,7 @@ class ContextTabFormActionPageComponentBuilder
 					"singleton",
 					"%s%sFormPartFactory",
 					context.newComponentNamePrefix (),
-					hyphenToCamelCapitalise (
+					capitalise (
 						spec.name ()))
 
 			);

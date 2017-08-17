@@ -2,8 +2,8 @@ package wbs.console.formaction;
 
 import static wbs.utils.etc.NullUtils.anyIsNotNull;
 import static wbs.utils.etc.NullUtils.ifNull;
+import static wbs.utils.string.StringUtils.camelToHyphen;
 import static wbs.utils.string.StringUtils.capitalise;
-import static wbs.utils.string.StringUtils.hyphenToCamel;
 import static wbs.utils.string.StringUtils.hyphenToSpaces;
 import static wbs.utils.string.StringUtils.hyphenToSpacesCapitalise;
 import static wbs.utils.string.StringUtils.stringFormat;
@@ -344,12 +344,12 @@ class ContextTabFormActionPageBuilder
 
 		) {
 
-			nameHyphen =
+			nameCamel =
 				spec.name ();
 
-			nameCamel =
-				hyphenToCamel (
-					nameHyphen);
+			nameHyphen =
+				camelToHyphen (
+					nameCamel);
 
 			helperBeanName =
 				stringFormat (

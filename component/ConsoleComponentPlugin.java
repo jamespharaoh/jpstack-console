@@ -374,7 +374,8 @@ class ConsoleComponentPlugin
 			String enumConsoleHelperComponentName =
 				stringFormat (
 					"%sConsoleHelper",
-					customType.name ());
+					hyphenToCamel (
+						customType.name ()));
 
 			if (
 				componentRegistry.hasName (

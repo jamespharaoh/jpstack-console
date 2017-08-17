@@ -15,6 +15,8 @@ import wbs.framework.data.annotations.DataAttribute;
 import wbs.framework.data.annotations.DataChildren;
 import wbs.framework.data.annotations.DataClass;
 
+import wbs.utils.string.StringFormat;
+
 @Accessors (fluent = true)
 @Data
 @DataClass ("extend-context")
@@ -41,11 +43,13 @@ class ExtendContextSpec
 		required = true)
 	String extensionPointName;
 
-	@DataAttribute
+	@DataAttribute (
+		format = StringFormat.camelCase)
 	String objectName;
 
 	@DataAttribute (
-		required = true)
+		required = true,
+		format = StringFormat.camelCase)
 	String componentName;
 
 	@DataAttribute (

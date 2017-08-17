@@ -30,7 +30,7 @@ class ContextTabFormActionPageSpec
 
 	@DataAttribute (
 		required = true,
-		format = StringFormat.hyphenated)
+		format = StringFormat.camelCase)
 	String name;
 
 	@DataAttribute (
