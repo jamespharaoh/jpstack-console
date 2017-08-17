@@ -5,6 +5,8 @@ import static wbs.utils.etc.NullUtils.ifNull;
 import static wbs.utils.etc.OptionalUtils.optionalFromNullable;
 import static wbs.utils.etc.OptionalUtils.optionalIf;
 import static wbs.utils.etc.OptionalUtils.optionalOf;
+import static wbs.utils.string.StringUtils.camelToHyphen;
+import static wbs.utils.string.StringUtils.camelToSpaces;
 import static wbs.utils.string.StringUtils.capitalise;
 import static wbs.utils.string.StringUtils.hyphenToCamel;
 import static wbs.utils.string.StringUtils.hyphenToCamelCapitalise;
@@ -129,7 +131,8 @@ class ContextTabFormActionPageComponentBuilder
 							spec.actionFormTypeName (),
 							stringFormat (
 								"%s-action",
-								spec.name ()))))
+								camelToHyphen (
+									spec.name ())))))
 
 				.addValueProperty (
 					"helpText",
@@ -171,8 +174,8 @@ class ContextTabFormActionPageComponentBuilder
 								ifNull (
 									spec.historyFormTypeName (),
 									stringFormat (
-										"%sHistory",
-										hyphenToCamel (
+										"%s-history",
+										camelToHyphen (
 											spec.name ())))))))
 
 			);

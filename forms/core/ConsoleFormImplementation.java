@@ -540,8 +540,7 @@ class ConsoleFormImplementation <Container>
 				) {
 
 					updateResultSet.updateResults ().get (
-						stringFormat (
-							"%s-%s",
+						Pair.of (
 							formName,
 							formField.name ()));
 

@@ -9,6 +9,8 @@ import wbs.framework.component.annotations.PrototypeComponent;
 import wbs.framework.data.annotations.DataAttribute;
 import wbs.framework.data.annotations.DataClass;
 
+import wbs.utils.string.StringFormat;
+
 @Accessors (fluent = true)
 @Data
 @DataClass ("form-action")
@@ -18,11 +20,13 @@ class ConsoleFormActionSpec
 	implements ConsoleSpec {
 
 	@DataAttribute (
-		required = true)
+		required = true,
+		format = StringFormat.hyphenated)
 	String name;
 
 	@DataAttribute (
-		name = "action-form")
+		name = "action-form",
+		format = StringFormat.hyphenated)
 	String actionFormTypeName;
 
 	@DataAttribute
@@ -32,14 +36,16 @@ class ConsoleFormActionSpec
 	String submitLabel;
 
 	@DataAttribute (
-		name = "helper")
+		name = "helper",
+		format = StringFormat.camelCase)
 	String helperName;
 
 	@DataAttribute
 	String historyHeading;
 
 	@DataAttribute (
-		name = "history-form")
+		name = "history-form",
+		format = StringFormat.hyphenated)
 	String historyFormTypeName;
 
 }

@@ -2,6 +2,7 @@ package wbs.console.object;
 
 import static wbs.utils.etc.LogicUtils.ifNotNullThenElse;
 import static wbs.utils.etc.TypeUtils.genericCastUnchecked;
+import static wbs.utils.string.StringUtils.camelToHyphen;
 
 import java.util.List;
 
@@ -185,7 +186,8 @@ class ExtendContextBuilder <
 				spec.objectName (),
 				() -> genericCastUnchecked (
 					objectManager.consoleHelperForNameRequired (
-						spec.objectName ())),
+						camelToHyphen (
+							spec.objectName ()))),
 				() -> null);
 
 		consoleHelper =
