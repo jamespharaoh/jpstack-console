@@ -106,8 +106,7 @@ class ContextTabFormActionPageComponentBuilder
 					capitalise (
 						hyphenToSpaces (
 							context.consoleModule ().name ())),
-					camelToSpaces (
-						spec.name ()))
+					spec.name ())
 
 				.addReferencePropertyFormat (
 					"helperProvider",
